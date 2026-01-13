@@ -88,25 +88,25 @@ export function UAEMap({ onShowroomClick, onShowroomHover }: UAEMapProps) {
 
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
-      // Use Stadia Maps Alidade Smooth (English labels, clean style)
+      // Use OpenStreetMap tiles (free, no API key required)
       style: {
         version: 8,
         sources: {
-          'stadia': {
+          'osm': {
             type: 'raster',
             tiles: [
-              'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}@2x.png'
+              'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
             ],
             tileSize: 256,
-            attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           }
         },
         layers: [{
-          id: 'stadia-tiles',
+          id: 'osm-tiles',
           type: 'raster',
-          source: 'stadia',
+          source: 'osm',
           minzoom: 0,
-          maxzoom: 20
+          maxzoom: 19
         }]
       },
       center: [54.0, 24.2],

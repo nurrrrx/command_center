@@ -541,21 +541,21 @@ export function LiveTestDrives({ headless = false }: LiveTestDrivesProps) {
       style: {
         version: 8,
         sources: {
-          'stadia': {
+          'osm': {
             type: 'raster',
             tiles: [
-              'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}@2x.png'
+              'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
             ],
             tileSize: 256,
-            attribution: '&copy; Stadia Maps'
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           }
         },
         layers: [{
-          id: 'stadia-tiles',
+          id: 'osm-tiles',
           type: 'raster',
-          source: 'stadia',
+          source: 'osm',
           minzoom: 0,
-          maxzoom: 20
+          maxzoom: 19
         }]
       },
       center: [55.4, 25.2], // Center on Dubai-Sharjah area where most roads are
