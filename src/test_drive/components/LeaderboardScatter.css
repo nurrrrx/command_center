@@ -1,0 +1,47 @@
+@import '../styles/dashboard-shared.css';
+
+.leaderboard-scatter {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+}
+
+.leaderboard-scatter .scatter-chart-area {
+  width: 100%;
+  height: 100%;
+}
+
+.leaderboard-scatter .scatter-chart-area svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.leaderboard-scatter .point circle {
+  transition: opacity 0.15s ease, r 0.15s ease;
+  cursor: pointer;
+}
+
+.leaderboard-scatter .point:hover circle {
+  opacity: 1;
+  r: 6;
+}
+
+.leaderboard-scatter .axis-label {
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  fill: var(--color-text-secondary);
+}
+
+.leaderboard-scatter .x-axis text,
+.leaderboard-scatter .y-axis text {
+  font-family: var(--font-family);
+  font-size: 9px;
+  fill: var(--color-text-secondary);
+}
+
+.leaderboard-scatter .x-axis line,
+.leaderboard-scatter .y-axis line {
+  stroke: var(--color-border);
+}

@@ -1,0 +1,74 @@
+@import '../styles/dashboard-shared.css';
+
+.demographics-gender {
+  position: relative;
+  padding: var(--spacing-lg);
+  background: var(--color-white);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+}
+
+.demographics-gender .chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+  flex-shrink: 0;
+}
+
+.demographics-gender .chart-title {
+  font-family: var(--font-family);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-navy-dark);
+  margin: 0;
+}
+
+.demographics-gender .clear-filter-btn {
+  font-family: var(--font-family);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  transition: all 0.15s ease;
+}
+
+.demographics-gender .clear-filter-btn:hover {
+  background: var(--color-off-white);
+  color: var(--color-text-primary);
+}
+
+.demographics-gender .chart-area {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.demographics-gender .chart-area svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.demographics-gender .arc path {
+  transition: opacity 0.15s ease, stroke-width 0.15s ease;
+}
+
+/* Headless mode */
+.demographics-gender.headless {
+  padding: var(--spacing-md);
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}

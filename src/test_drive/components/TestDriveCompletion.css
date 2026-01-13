@@ -1,0 +1,46 @@
+@import '../styles/dashboard-shared.css';
+
+.test-drive-completion {
+  position: relative;
+  padding: var(--spacing-lg);
+  background: var(--color-white);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+}
+
+.test-drive-completion .chart-header {
+  flex-shrink: 0;
+  margin-bottom: var(--spacing-sm);
+}
+
+.test-drive-completion .chart-title {
+  font-family: var(--font-family);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-navy-dark);
+  margin: 0;
+}
+
+.test-drive-completion .chart-area {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.test-drive-completion .chart-area svg {
+  display: block;
+}
+
+.test-drive-completion .arc path {
+  transition: opacity 0.15s ease;
+}

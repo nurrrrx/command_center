@@ -1,0 +1,41 @@
+@import '../styles/dashboard-shared.css';
+
+.popular-models {
+  position: relative;
+  padding: var(--spacing-lg);
+  background: var(--color-white);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  font-family: var(--font-family);
+}
+
+.popular-models .chart-header {
+  margin-bottom: var(--spacing-md);
+}
+
+.popular-models .chart-title {
+  font-family: var(--font-family);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-navy-dark);
+  margin: 0 0 var(--spacing-xs) 0;
+}
+
+.popular-models .chart-subtitle {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.popular-models .chart-area {
+  min-height: 450px;
+}
+
+.popular-models .bar {
+  transition: opacity 0.15s ease;
+}
+
+.popular-models .bar:hover {
+  opacity: 0.8;
+}

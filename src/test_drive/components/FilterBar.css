@@ -1,0 +1,188 @@
+@import '../styles/dashboard-shared.css';
+
+.filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: var(--color-white);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  margin-bottom: var(--spacing-lg);
+  flex-wrap: wrap;
+  font-family: var(--font-family);
+}
+
+.filter-groups {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.date-range-group {
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.date-inputs {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.filter-date-input {
+  font-family: var(--font-family);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: var(--font-size-sm);
+  background: var(--color-white);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  min-width: 130px;
+  transition: border-color 0.15s ease;
+}
+
+.filter-date-input:hover {
+  border-color: var(--color-navy-blue);
+}
+
+.filter-date-input:focus {
+  outline: none;
+  border-color: var(--color-navy-blue);
+  box-shadow: 0 0 0 2px rgba(22, 62, 147, 0.1);
+}
+
+.date-separator {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.filter-select {
+  font-family: var(--font-family);
+  padding: var(--spacing-xs) 2rem var(--spacing-xs) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: var(--font-size-sm);
+  background: var(--color-white);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234A5568' d='M3 4.5l3 3 3-3'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  min-width: 140px;
+  transition: border-color 0.15s ease;
+}
+
+.filter-select:hover {
+  border-color: var(--color-navy-blue);
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--color-navy-blue);
+  box-shadow: 0 0 0 2px rgba(22, 62, 147, 0.1);
+}
+
+.clear-filters-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-white);
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.clear-filters-btn:hover {
+  background: var(--color-off-white);
+  border-color: var(--color-navy-blue);
+  color: var(--color-text-primary);
+}
+
+.clear-filters-btn svg {
+  opacity: 0.7;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .filter-bar {
+    padding: var(--spacing-md);
+    gap: var(--spacing-md);
+  }
+
+  .filter-groups {
+    gap: var(--spacing-md);
+  }
+
+  .filter-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+
+  .date-range-group {
+    width: 100%;
+  }
+
+  .date-inputs {
+    width: 100%;
+  }
+
+  .filter-date-input {
+    flex: 1;
+    min-width: 110px;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-md);
+  }
+
+  .filter-groups {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-md);
+  }
+
+  .filter-group {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .filter-select,
+  .filter-date-input {
+    flex: 1;
+    max-width: none;
+  }
+
+  .clear-filters-btn {
+    align-self: flex-end;
+  }
+}

@@ -1,0 +1,55 @@
+@import '../styles/dashboard-shared.css';
+
+.top-channels-preference {
+  position: relative;
+  padding: var(--spacing-md);
+  background: var(--color-white);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+}
+
+.top-channels-preference .chart-header {
+  flex-shrink: 0;
+  margin-bottom: var(--spacing-sm);
+}
+
+.top-channels-preference .chart-title {
+  font-family: var(--font-family);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-navy-dark);
+  margin: 0;
+}
+
+.top-channels-preference .chart-area {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+
+.top-channels-preference .chart-area svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.top-channels-preference .bar {
+  transition: opacity 0.15s ease;
+}
+
+.top-channels-preference .bar:hover {
+  opacity: 0.8;
+}
+
+/* Headless mode */
+.top-channels-preference.headless {
+  padding: var(--spacing-md);
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}

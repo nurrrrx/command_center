@@ -1,0 +1,436 @@
+/* Dashboard Shared Styles
+ * Professional consulting-style design system
+ * Font: Helvetica Neue
+ * Primary palette: McKinsey (#051C2A, #163E93, #30A3DA, #060200)
+ * Secondary palette: BCG (#025645, #337B68, #E6B437)
+ * Accent: Bain red (#BF0404), Accenture gray/purple (#979797, #9B00F5)
+ */
+
+/* ===== CSS Variables ===== */
+:root {
+  /* McKinsey palette - Primary */
+  --color-navy-dark: #051C2A;
+  --color-navy-blue: #163E93;
+  --color-sky-blue: #30A3DA;
+  --color-black: #060200;
+
+  /* BCG palette - Secondary */
+  --color-teal-dark: #025645;
+  --color-teal-light: #337B68;
+  --color-gold: #E6B437;
+
+  /* Accent colors */
+  --color-red: #BF0404;
+  --color-gray: #979797;
+  --color-purple: #9B00F5;
+
+  /* Neutral colors */
+  --color-white: #FFFFFF;
+  --color-off-white: #F8F9FA;
+  --color-light-gray: #E9ECEF;
+  --color-border: #DEE2E6;
+  --color-text-primary: #051C2A;
+  --color-text-secondary: #4A5568;
+  --color-text-muted: #718096;
+
+  /* Typography */
+  --font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-size-xs: 10px;
+  --font-size-sm: 11px;
+  --font-size-base: 12px;
+  --font-size-md: 13px;
+  --font-size-lg: 14px;
+  --font-size-xl: 16px;
+  --font-size-2xl: 18px;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+}
+
+/* ===== Tab Name ===== */
+.tab-name {
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  padding: var(--spacing-sm) var(--spacing-md);
+  cursor: pointer;
+  transition: color 0.15s ease;
+  border: none;
+  background: transparent;
+}
+
+.tab-name:hover {
+  color: var(--color-navy-blue);
+}
+
+.tab-name.active {
+  color: var(--color-navy-dark);
+  font-weight: var(--font-weight-semibold);
+  border-bottom: 2px solid var(--color-navy-blue);
+}
+
+/* ===== Chart Header ===== */
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+  flex-shrink: 0;
+}
+
+.chart-header .header-left {
+  flex: 1;
+}
+
+.chart-header .chart-title {
+  font-family: var(--font-family);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-navy-dark);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.chart-header .chart-subtitle {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-text-muted);
+  margin: var(--spacing-xs) 0 0 0;
+}
+
+/* ===== Chart Toggle ===== */
+.chart-toggle {
+  display: flex;
+  gap: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  flex-shrink: 0;
+}
+
+.chart-toggle .toggle-btn {
+  font-family: var(--font-family);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  border: none;
+  background: var(--color-off-white);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.chart-toggle .toggle-btn:first-child {
+  border-right: 1px solid var(--color-border);
+}
+
+.chart-toggle .toggle-btn:hover {
+  background: var(--color-light-gray);
+}
+
+.chart-toggle .toggle-btn.active {
+  background: var(--color-navy-dark);
+  color: var(--color-white);
+}
+
+/* ===== Chart Legend ===== */
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  font-family: var(--font-family);
+}
+
+.chart-legend .legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.chart-legend .legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.chart-legend .legend-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-text-secondary);
+}
+
+.chart-legend .legend-button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.15s ease;
+}
+
+.chart-legend .legend-button:hover {
+  background: var(--color-off-white);
+}
+
+.chart-legend .legend-button.selected {
+  background: rgba(22, 62, 147, 0.1);
+  outline: 1px solid var(--color-navy-blue);
+}
+
+/* ===== X-Axis ===== */
+.x-axis text {
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-normal);
+  fill: var(--color-text-secondary);
+}
+
+.x-axis .domain {
+  stroke: var(--color-border);
+}
+
+.x-axis .tick line {
+  stroke: var(--color-border);
+}
+
+.x-axis-label {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  fill: var(--color-text-muted);
+}
+
+/* ===== Y-Axis ===== */
+.y-axis text {
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-normal);
+  fill: var(--color-text-secondary);
+}
+
+.y-axis .domain {
+  stroke: var(--color-border);
+}
+
+.y-axis .tick line {
+  stroke: var(--color-border);
+}
+
+.y-axis-label {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  fill: var(--color-text-muted);
+}
+
+/* ===== Insights Body ===== */
+.insights-body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-text-primary);
+  line-height: 1.5;
+}
+
+.insights-body .insight-highlight {
+  color: var(--color-navy-blue);
+  font-weight: var(--font-weight-medium);
+}
+
+.insights-body .insight-positive {
+  color: var(--color-teal-dark);
+}
+
+.insights-body .insight-negative {
+  color: var(--color-red);
+}
+
+.insights-body .insight-neutral {
+  color: var(--color-text-muted);
+}
+
+/* ===== Chart Values & Percentages ===== */
+.chart-value {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  fill: var(--color-text-primary);
+}
+
+.chart-value.on-dark {
+  fill: var(--color-white);
+}
+
+.chart-percentage {
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-normal);
+  fill: var(--color-text-secondary);
+}
+
+.chart-percentage.on-dark {
+  fill: rgba(255, 255, 255, 0.9);
+}
+
+/* ===== Filter Style ===== */
+.filter-container {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  font-family: var(--font-family);
+}
+
+.filter-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-text-secondary);
+}
+
+.filter-select {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-text-primary);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-white);
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.filter-select:hover {
+  border-color: var(--color-navy-blue);
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--color-navy-blue);
+  box-shadow: 0 0 0 2px rgba(22, 62, 147, 0.1);
+}
+
+.filter-button {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-text-secondary);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-white);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.filter-button:hover {
+  background: var(--color-off-white);
+  border-color: var(--color-navy-blue);
+}
+
+.filter-button.active {
+  background: var(--color-navy-dark);
+  color: var(--color-white);
+  border-color: var(--color-navy-dark);
+}
+
+/* ===== Tooltip ===== */
+.chart-tooltip {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  background: var(--color-navy-dark);
+  color: var(--color-white);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: 4px;
+  line-height: 1.4;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.chart-tooltip strong {
+  font-weight: var(--font-weight-medium);
+}
+
+/* ===== Average Line ===== */
+.avg-line {
+  stroke: var(--color-red);
+  stroke-width: 1.5;
+  stroke-dasharray: 4, 3;
+}
+
+.avg-label {
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  fill: var(--color-red);
+}
+
+/* ===== Grid Lines ===== */
+.grid line {
+  stroke: var(--color-light-gray);
+  stroke-dasharray: 2, 2;
+}
+
+/* ===== Card Container ===== */
+.dashboard-card {
+  position: relative;
+  background: var(--color-white);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  padding: var(--spacing-lg);
+  font-family: var(--font-family);
+}
+
+/* ===== Data Colors (Chart-specific) ===== */
+.data-primary { fill: var(--color-navy-blue); }
+.data-secondary { fill: var(--color-sky-blue); }
+.data-tertiary { fill: var(--color-teal-dark); }
+.data-quaternary { fill: var(--color-teal-light); }
+.data-accent { fill: var(--color-gold); }
+.data-negative { fill: var(--color-red); }
+.data-neutral { fill: var(--color-gray); }
+
+/* Stroke variants */
+.stroke-primary { stroke: var(--color-navy-blue); }
+.stroke-secondary { stroke: var(--color-sky-blue); }
+.stroke-tertiary { stroke: var(--color-teal-dark); }
+.stroke-quaternary { stroke: var(--color-teal-light); }
+.stroke-accent { stroke: var(--color-gold); }
+.stroke-negative { stroke: var(--color-red); }
+
+/* ===== Annotation Text ===== */
+.axis-annotation {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  fill: var(--color-text-muted);
+}
+
+/* ===== Bar Labels ===== */
+.bar-label {
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-normal);
+}
+
+/* ===== Name Labels ===== */
+.name-label {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  fill: var(--color-text-primary);
+}

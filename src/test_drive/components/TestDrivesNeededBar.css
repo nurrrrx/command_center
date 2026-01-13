@@ -1,0 +1,96 @@
+@import '../styles/dashboard-shared.css';
+
+.test-drives-needed-bar {
+  position: relative;
+  padding: var(--spacing-md);
+  background: var(--color-white);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  font-family: var(--font-family);
+}
+
+.test-drives-needed-bar .chart-header {
+  margin-bottom: var(--spacing-md);
+}
+
+.test-drives-needed-bar .chart-title {
+  font-family: var(--font-family);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-navy-dark);
+  margin: 0;
+}
+
+.test-drives-needed-bar .chart-area {
+  margin-bottom: var(--spacing-md);
+  width: 100%;
+}
+
+.test-drives-needed-bar .segment {
+  transition: opacity 0.15s ease;
+}
+
+.test-drives-needed-bar .segment:hover {
+  opacity: 0.85;
+}
+
+.test-drives-needed-bar .bar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  justify-content: center;
+}
+
+.test-drives-needed-bar .legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.test-drives-needed-bar .legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.test-drives-needed-bar .legend-label {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.test-drives-needed-bar .legend-value {
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+/* Headless mode - remove container styling but keep padding */
+.test-drives-needed-bar.headless {
+  padding: var(--spacing-md);
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.test-drives-needed-bar.headless .chart-area {
+  margin-bottom: var(--spacing-sm);
+  width: 100%;
+}
+
+.test-drives-needed-bar.headless .chart-area svg {
+  width: 100%;
+  display: block;
+}
+
+.test-drives-needed-bar.headless .chart-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-navy-dark);
+}

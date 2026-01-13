@@ -1,0 +1,84 @@
+@import '../styles/dashboard-shared.css';
+.test-drives-over-time {
+  position: relative;
+  padding: 16px;
+  background: #FFFFFF;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.test-drives-over-time .chart-header {
+  flex-shrink: 0;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.test-drives-over-time .chart-title {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #051C2A;
+  margin: 0;
+}
+
+.test-drives-over-time .chart-toggle {
+  /* Uses flex layout from shared styles - removed absolute positioning */
+}
+
+.test-drives-over-time .toggle-btn {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 400;
+  border: none;
+  background: #F8F9FA;
+  color: #4A5568;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.test-drives-over-time .toggle-btn:not(:last-child) {
+  border-right: 1px solid #DEE2E6;
+}
+
+.test-drives-over-time .toggle-btn:hover {
+  background: #E9ECEF;
+}
+
+.test-drives-over-time .toggle-btn.active {
+  background: #051C2A;
+  color: #FFFFFF;
+}
+
+.test-drives-over-time .chart-area {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.test-drives-over-time .chart-area svg {
+  display: block;
+}
+
+.test-drives-over-time .chart-tooltip {
+  position: absolute;
+  background: #FFFFFF;
+  border: 1px solid #DEE2E6;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+  z-index: 100;
+}

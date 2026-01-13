@@ -1,0 +1,1368 @@
+/* V2 Dashboard - PowerBI Style Layout */
+/* Full viewport, no scrolling on main container */
+
+.v2-dashboard {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--background);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.v2-dashboard * {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* Fixed Header */
+.v2-header {
+  flex-shrink: 0;
+  padding: 20px 24px 32px 24px;
+  background: var(--background);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-logo {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+}
+
+.header-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.live-data-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--background);
+  color: var(--muted-foreground);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.live-data-button:hover {
+  background: var(--accent);
+  color: var(--foreground);
+}
+
+.live-data-button.active {
+  background: #34a853;
+  border-color: #34a853;
+  color: white;
+}
+
+.live-data-button.active:hover {
+  background: #2d9248;
+  border-color: #2d9248;
+}
+
+.settings-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--background);
+  color: var(--muted-foreground);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.settings-button:hover {
+  background: var(--accent);
+  color: var(--foreground);
+}
+
+.header-title h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--foreground);
+}
+
+
+/* Fixed Filter Bar */
+.v2-filters {
+  flex-shrink: 0;
+  padding: 8px 24px 24px 24px;
+  background: var(--background);
+}
+
+.v2-filters .filter-bar {
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+/* Tab Navigation */
+.v2-tabs {
+  flex-shrink: 0;
+  display: flex;
+  gap: 0;
+  padding: 0 24px;
+  background: var(--background);
+  border-bottom: 1px solid var(--border);
+}
+
+.tab-button {
+  position: relative;
+  padding: 12px 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.tab-button:hover {
+  color: var(--foreground);
+  background: var(--accent);
+}
+
+.tab-button.active {
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--primary);
+}
+
+.tab-label-short {
+  display: none;
+}
+
+@media (max-width: 1200px) {
+  .tab-label-full {
+    display: none;
+  }
+  .tab-label-short {
+    display: inline;
+  }
+}
+
+/* Scrollable Content Area (Tab Body) */
+.v2-content,
+.tabBody {
+  flex: 1;
+  overflow: auto;
+  padding: 16px 24px;
+  background: var(--muted);
+}
+
+/* Tab Content Grid Layouts */
+.tab-content-grid {
+  display: grid;
+  gap: 16px;
+  height: 100%;
+  min-height: 0;
+}
+
+.chart-card {
+  padding: 0;
+  overflow: hidden;
+  min-height: 300px;
+}
+
+.chart-card.full-width {
+  grid-column: 1 / -1;
+}
+
+/* Executive Summary Grid - 3 charts */
+.executive-grid {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.executive-grid .chart-card:first-child {
+  grid-column: 1 / -1;
+}
+
+/* Sales Funnel Grid - 3 charts */
+.funnel-grid {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.funnel-grid .chart-card:first-child {
+  grid-column: 1 / -1;
+}
+
+/* Channel Performance Grid - 2 charts */
+.channel-grid {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+/* Model Performance Grid - 2 charts */
+.model-grid {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+/* Operations Grid - 3 charts */
+.operations-grid {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.operations-grid .chart-card:first-child {
+  grid-column: 1 / -1;
+}
+
+/* Demographics Grid - 1 full width chart */
+.demographics-grid {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}
+
+/* Placeholder Cards for Layout Templates */
+.placeholder-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  color: #666;
+  min-height: 150px;
+  overflow: hidden;
+}
+
+/* When placeholder-card contains a component, adjust layout */
+.placeholder-card:has(> *:not(:empty)) {
+  display: block;
+}
+
+.placeholder-card.full-width {
+  grid-column: 1 / -1;
+}
+
+/* Placeholder text styling */
+.placeholder-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #999;
+}
+
+/* Layout Card - for charts directly in grid */
+.layout-card {
+  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Empty card styling */
+.empty-card {
+  background: #fafafa;
+  border: 1px dashed #ddd;
+}
+
+/* Insights Card Styling */
+.insights-card {
+  padding: 0 !important;
+  overflow: auto;
+}
+
+.insights-content {
+  padding: 16px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.insights-content h3 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #051C2A;
+  border-bottom: 1px solid #E9ECEF;
+  padding-bottom: 12px;
+}
+
+.insight-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #F8F9FA;
+}
+
+.insight-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.insight-label {
+  font-size: 10px;
+  font-weight: 500;
+  color: #718096;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.insight-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #051C2A;
+}
+
+.insight-value.positive {
+  color: #025645;
+}
+
+.insight-value.negative {
+  color: #BF0404;
+}
+
+.insight-value.warning {
+  color: #E6B437;
+}
+
+.insight-detail {
+  margin: 4px 0 0 0;
+  font-size: 11px;
+  color: #4A5568;
+  line-height: 1.4;
+}
+
+/* Layout 1: 3 cards top, 1 tall right, 1 wide bottom-left */
+.layout1-grid {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.layout1-grid .placeholder-card:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.layout1-grid .placeholder-card:nth-child(2) {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.layout1-grid .placeholder-card:nth-child(3) {
+  grid-column: 3;
+  grid-row: 1 / 3;
+}
+
+.layout1-grid .placeholder-card:nth-child(4) {
+  grid-column: 1 / 3;
+  grid-row: 2;
+}
+
+/* Layout 2: 6 equal cards in 3x2 grid */
+.layout2-grid {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr 1fr;
+}
+
+/* Layout 3: 3 cards on top, 1 full width below */
+.layout3-grid {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr 1fr;
+}
+
+.layout3-grid .placeholder-card:nth-child(4) {
+  grid-column: 1 / -1;
+}
+
+/* Layout 4: 1 full width on top, 3 cards below */
+.layout4-grid {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr 1fr;
+}
+
+.layout4-grid .placeholder-card:nth-child(1) {
+  grid-column: 1 / -1;
+}
+
+/* Executive Live Grid: 2 equal cards on top + 3 cards on bottom */
+.executive-live-grid {
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 1.2fr 1fr;
+}
+
+.executive-live-grid .placeholder-card:nth-child(1) {
+  grid-column: 1 / 4;
+  grid-row: 1;
+}
+
+.executive-live-grid .placeholder-card:nth-child(2) {
+  grid-column: 4 / 7;
+  grid-row: 1;
+}
+
+.executive-live-grid .placeholder-card:nth-child(3) {
+  grid-column: 1 / 3;
+  grid-row: 2;
+}
+
+.executive-live-grid .placeholder-card:nth-child(4) {
+  grid-column: 3 / 5;
+  grid-row: 2;
+}
+
+.executive-live-grid .placeholder-card:nth-child(5) {
+  grid-column: 5 / 7;
+  grid-row: 2;
+}
+
+/* Layout 5: Wide top-left + 2 bottom + tall right */
+.layout5-grid {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.layout5-grid .placeholder-card:nth-child(1) {
+  grid-column: 1 / 3;
+  grid-row: 1;
+}
+
+.layout5-grid .placeholder-card:nth-child(2) {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.layout5-grid .placeholder-card:nth-child(3) {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.layout5-grid .placeholder-card:nth-child(4) {
+  grid-column: 3;
+  grid-row: 1 / 3;
+}
+
+/* Layout 6: 1 tall card left, 2x2 grid right */
+.layout6-grid {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.layout6-grid .placeholder-card:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1 / 3;
+}
+
+.layout6-grid .placeholder-card:nth-child(2) {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.layout6-grid .placeholder-card:nth-child(3) {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.layout6-grid .placeholder-card:nth-child(4) {
+  grid-column: 2 / 4;
+  grid-row: 2;
+}
+
+/* Layout 7: Large card left (2/3), 2 stacked cards right (1/3) */
+.layout7-grid {
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.layout7-grid .placeholder-card:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1 / 3;
+}
+
+.layout7-grid .placeholder-card:nth-child(2) {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.layout7-grid .placeholder-card:nth-child(3) {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+/* Layout 8: 3 equal tall columns */
+.layout8-grid {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr;
+}
+
+/* Leaderboard with scatter plot layout */
+.leaderboard-with-scatter {
+  display: flex !important;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0.75rem;
+  position: relative;
+}
+
+/* Position toggle relative to the card, not the inner leaderboard */
+.leaderboard-with-scatter .leaderboard.headless {
+  position: static;
+}
+
+.leaderboard-with-scatter .leaderboard .chart-toggle {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+}
+
+.leaderboard-with-scatter .leaderboard-card-header {
+  flex-shrink: 0;
+  padding: 0 0 0.5rem 0;
+}
+
+.leaderboard-with-scatter .leaderboard-card-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #051C2A;
+}
+
+.leaderboard-with-scatter .leaderboard.headless {
+  flex: 2;
+  min-height: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.leaderboard-with-scatter .leaderboard.headless .chart-controls {
+  padding: 0.25rem 0;
+  margin-bottom: 0.25rem;
+}
+
+.leaderboard-with-scatter .leaderboard.headless .chart-area {
+  width: 100%;
+}
+
+.leaderboard-with-scatter .leaderboard-scatter {
+  flex: 1;
+  min-height: 150px;
+  max-height: 200px;
+  border-top: 1px solid #eee;
+  padding: 0.5rem 0 0 0;
+  width: 100%;
+}
+
+/* Layout 9: Tall left + 2x2 grid right */
+.layout9-grid {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.layout9-grid .placeholder-card:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1 / 3;
+}
+
+.layout9-grid .placeholder-card:nth-child(2) {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.layout9-grid .placeholder-card:nth-child(3) {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.layout9-grid .placeholder-card:nth-child(4) {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.layout9-grid .placeholder-card:nth-child(5) {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+/* Layout 10: Tall left + 2 stacked center + tall right */
+.layout10-grid {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.layout10-grid > :nth-child(1) {
+  grid-column: 1;
+  grid-row: 1 / 3;
+}
+
+.layout10-grid > :nth-child(2) {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.layout10-grid > :nth-child(3) {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.layout10-grid > :nth-child(4) {
+  grid-column: 3;
+  grid-row: 1 / 3;
+}
+
+/* Layout 11: 1 single large card */
+.layout11-grid {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}
+
+/* Layout 12: 2 equal columns side by side */
+.layout12-grid {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+/* Car Model Performance custom layout: 80% / 20% columns */
+.carmodel-grid {
+  grid-template-columns: 4fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+/* Layout 12 stacked cards in second column */
+.layout12-stacked {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.layout12-stacked > * {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Layout 13: Tall left + 2 top-right + wide bottom-right */
+.layout13-grid {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.layout13-grid .placeholder-card:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1 / 3;
+}
+
+.layout13-grid .placeholder-card:nth-child(2) {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.layout13-grid .placeholder-card:nth-child(3) {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.layout13-grid .placeholder-card:nth-child(4) {
+  grid-column: 2 / 4;
+  grid-row: 2;
+}
+
+/* Layout 14: 2 tall left columns + short top-right + tall bottom-right */
+.layout14-grid {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 16fr;
+}
+
+.layout14-grid .placeholder-card:nth-child(1) {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.layout14-grid .placeholder-card:nth-child(2) {
+  grid-column: 1;
+  grid-row: 1 / 3;
+}
+
+.layout14-grid .placeholder-card:nth-child(3) {
+  grid-column: 2;
+  grid-row: 1 / 3;
+}
+
+.layout14-grid .placeholder-card:nth-child(4) {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+/* Layout 15: 2 large cards on top + 4 smaller cards on bottom */
+.layout15-grid {
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 1fr 1fr;
+}
+
+.layout15-grid .placeholder-card:nth-child(1) {
+  grid-column: 1 / 3;
+  grid-row: 1;
+}
+
+.layout15-grid .placeholder-card:nth-child(2) {
+  grid-column: 3 / 5;
+  grid-row: 1;
+}
+
+.layout15-grid .placeholder-card:nth-child(3) {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.layout15-grid .placeholder-card:nth-child(4) {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.layout15-grid .placeholder-card:nth-child(5) {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.layout15-grid .placeholder-card:nth-child(6) {
+  grid-column: 4;
+  grid-row: 2;
+}
+
+/* Layout 16: 2x2 grid on left + 1 tall card on right */
+.layout16-grid {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.layout16-grid .placeholder-card:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.layout16-grid .placeholder-card:nth-child(2) {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.layout16-grid .placeholder-card:nth-child(3) {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.layout16-grid .placeholder-card:nth-child(4) {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.layout16-grid .placeholder-card:nth-child(5) {
+  grid-column: 3;
+  grid-row: 1 / 3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .v2-header {
+    padding: 10px 16px;
+  }
+
+  .v2-filters {
+    padding: 8px 16px;
+  }
+
+  .v2-tabs {
+    padding: 0 16px;
+    overflow-x: auto;
+  }
+
+  .tab-button {
+    padding: 10px 14px;
+    font-size: 0.8rem;
+  }
+
+  .v2-content {
+    padding: 12px 16px;
+  }
+
+  .tab-content-grid {
+    gap: 12px;
+  }
+
+  /* Stack grids on smaller screens */
+  .executive-grid,
+  .funnel-grid,
+  .channel-grid,
+  .model-grid,
+  .operations-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .executive-grid .chart-card:first-child,
+  .funnel-grid .chart-card:first-child,
+  .operations-grid .chart-card:first-child {
+    grid-column: 1;
+  }
+
+  .chart-card {
+    min-height: 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-title h1 {
+    font-size: 1.25rem;
+  }
+
+  .header-logo {
+    height: 22px;
+  }
+
+  .tab-button {
+    padding: 8px 10px;
+    font-size: 0.75rem;
+  }
+
+  .chart-card {
+    min-height: 250px;
+  }
+}
+
+/* Tab Close Button */
+.tab-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  padding: 2px;
+  border-radius: 4px;
+  color: var(--muted-foreground);
+  transition: all 0.15s ease;
+}
+
+.tab-close:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: var(--destructive);
+}
+
+/* Tab Edit Input */
+.tab-button.editing {
+  padding: 8px 12px;
+}
+
+.tab-edit-input {
+  border: 1px solid var(--primary);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  font-family: inherit;
+  background: white;
+  color: var(--foreground);
+  outline: none;
+  min-width: 100px;
+  max-width: 200px;
+}
+
+.tab-edit-input:focus {
+  box-shadow: 0 0 0 2px rgba(var(--primary-rgb, 59, 130, 246), 0.2);
+}
+
+/* Dialog Overlay */
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.dialog-content {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 900px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #eee;
+}
+
+.dialog-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.dialog-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.dialog-close:hover {
+  background: #f5f5f5;
+  color: #333;
+}
+
+.dialog-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 24px;
+  border-top: 1px solid #eee;
+}
+
+/* Layout Grid in Dialog */
+.layout-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.layout-option {
+  border: 2px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #fafafa;
+}
+
+.layout-option:hover {
+  border-color: #ccc;
+  background: #f5f5f5;
+}
+
+.layout-option.selected {
+  border-color: var(--primary);
+  background: #f0f7ff;
+}
+
+.layout-option-preview {
+  aspect-ratio: 16 / 10;
+  margin-bottom: 8px;
+  background: #f4f4f4;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.layout-option-info {
+  text-align: center;
+}
+
+.layout-option-name {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Layout Preview Mini Cards */
+.layout-preview {
+  display: grid;
+  gap: 4px;
+  height: 100%;
+  width: 100%;
+}
+
+.preview-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+}
+
+/* Layout 1 Preview: 2 small top-left, 1 tall right, 1 wide bottom-left */
+.layout1-preview {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.layout1-preview .preview-card:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.layout1-preview .preview-card:nth-child(2) {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.layout1-preview .preview-card:nth-child(3) {
+  grid-column: 3;
+  grid-row: 1 / 3;
+}
+
+.layout1-preview .preview-card:nth-child(4) {
+  grid-column: 1 / 3;
+  grid-row: 2;
+}
+
+/* Layout 2 Preview */
+.layout2-preview {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr 1fr;
+}
+
+/* Layout 3 Preview */
+.layout3-preview {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr 1fr;
+}
+
+.layout3-preview .preview-card:nth-child(4) {
+  grid-column: 1 / -1;
+}
+
+/* Layout 4 Preview */
+.layout4-preview {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr 1fr;
+}
+
+.layout4-preview .preview-card:nth-child(1) {
+  grid-column: 1 / -1;
+}
+
+/* Layout 5 Preview: Wide top-left + 2 bottom + tall right */
+.layout5-preview {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.layout5-preview .preview-card:nth-child(1) {
+  grid-column: 1 / 3;
+  grid-row: 1;
+}
+
+.layout5-preview .preview-card:nth-child(2) {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.layout5-preview .preview-card:nth-child(3) {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.layout5-preview .preview-card:nth-child(4) {
+  grid-column: 3;
+  grid-row: 1 / 3;
+}
+
+/* Layout 6 Preview */
+.layout6-preview {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.layout6-preview .preview-card:nth-child(1) {
+  grid-row: 1 / 3;
+}
+
+.layout6-preview .preview-card:nth-child(4) {
+  grid-column: 2 / 4;
+}
+
+/* Layout 7 Preview */
+.layout7-preview {
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.layout7-preview .preview-card:nth-child(1) {
+  grid-row: 1 / 3;
+}
+
+/* Layout 8 Preview */
+.layout8-preview {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr;
+}
+
+/* Layout 9 Preview: Tall left + 2x2 grid right */
+.layout9-preview {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.layout9-preview .preview-card:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1 / 3;
+}
+
+.layout9-preview .preview-card:nth-child(2) {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.layout9-preview .preview-card:nth-child(3) {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.layout9-preview .preview-card:nth-child(4) {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.layout9-preview .preview-card:nth-child(5) {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+/* Layout 10 Preview: Tall left + 2 stacked center + tall right */
+.layout10-preview {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.layout10-preview .preview-card:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1 / 3;
+}
+
+.layout10-preview .preview-card:nth-child(2) {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.layout10-preview .preview-card:nth-child(3) {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.layout10-preview .preview-card:nth-child(4) {
+  grid-column: 3;
+  grid-row: 1 / 3;
+}
+
+/* Layout 11 Preview: 1 single large card */
+.layout11-preview {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}
+
+/* Layout 12 Preview: 2 equal tall columns */
+.layout12-preview {
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+}
+
+/* Layout 13 Preview: Tall left + 2 top-right + wide bottom-right */
+.layout13-preview {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.layout13-preview .preview-card:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1 / 3;
+}
+
+.layout13-preview .preview-card:nth-child(2) {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.layout13-preview .preview-card:nth-child(3) {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.layout13-preview .preview-card:nth-child(4) {
+  grid-column: 2 / 4;
+  grid-row: 2;
+}
+
+/* Layout 14 Preview: 2 tall left columns + short top-right + tall bottom-right */
+.layout14-preview {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 16fr;
+}
+
+.layout14-preview .preview-card:nth-child(1) {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.layout14-preview .preview-card:nth-child(2) {
+  grid-column: 1;
+  grid-row: 1 / 3;
+}
+
+.layout14-preview .preview-card:nth-child(3) {
+  grid-column: 2;
+  grid-row: 1 / 3;
+}
+
+.layout14-preview .preview-card:nth-child(4) {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+/* Layout 15 Preview: 2 large top + 4 small bottom */
+.layout15-preview {
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 1fr 1fr;
+}
+
+.layout15-preview .preview-card:nth-child(1) {
+  grid-column: 1 / 3;
+  grid-row: 1;
+}
+
+.layout15-preview .preview-card:nth-child(2) {
+  grid-column: 3 / 5;
+  grid-row: 1;
+}
+
+.layout15-preview .preview-card:nth-child(3) {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.layout15-preview .preview-card:nth-child(4) {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.layout15-preview .preview-card:nth-child(5) {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.layout15-preview .preview-card:nth-child(6) {
+  grid-column: 4;
+  grid-row: 2;
+}
+
+/* Layout 16 Preview: 2x2 grid on left + 1 tall card on right */
+.layout16-preview {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.layout16-preview .preview-card:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.layout16-preview .preview-card:nth-child(2) {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.layout16-preview .preview-card:nth-child(3) {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.layout16-preview .preview-card:nth-child(4) {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.layout16-preview .preview-card:nth-child(5) {
+  grid-column: 3;
+  grid-row: 1 / 3;
+}
+
+/* Add Tab Button */
+.add-tab-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.add-tab-button:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.add-tab-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Responsive Dialog */
+@media (max-width: 768px) {
+  .layout-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dialog-content {
+    width: 95%;
+    max-height: 95vh;
+  }
+}

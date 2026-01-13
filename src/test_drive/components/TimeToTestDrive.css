@@ -1,0 +1,144 @@
+@import '../styles/dashboard-shared.css';
+
+.time-to-test-drive {
+  position: relative;
+  padding: var(--spacing-lg);
+  background: var(--color-white);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  font-family: var(--font-family);
+}
+
+.time-to-test-drive .chart-header {
+  margin-bottom: var(--spacing-sm);
+}
+
+.time-to-test-drive .chart-title {
+  font-family: var(--font-family);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-navy-dark);
+  margin: 0 0 var(--spacing-xs) 0;
+}
+
+.time-to-test-drive .chart-subtitle {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.time-to-test-drive .legend-inline {
+  display: flex;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-sm) 0;
+}
+
+.time-to-test-drive .legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.time-to-test-drive .legend-item .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.time-to-test-drive .chart-content {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: flex-start;
+}
+
+.time-to-test-drive .map-area {
+  flex-shrink: 0;
+  width: 350px;
+  min-height: 320px;
+  border-right: 1px solid var(--color-light-gray);
+  padding-right: var(--spacing-md);
+}
+
+/* Old D3 map (v1) styles */
+.time-to-test-drive .map-area.map-v1 svg {
+  display: block;
+}
+
+.time-to-test-drive .map-area.map-v1 .showroom-dot {
+  transition: r 0.15s ease;
+}
+
+/* MapLibre map container */
+.time-to-test-drive .map-area .uae-map-container {
+  height: 320px;
+  width: 100%;
+}
+
+.time-to-test-drive .chart-area {
+  flex: 1;
+  min-height: 280px;
+}
+
+.time-to-test-drive .avg-dot {
+  transition: r 0.15s ease;
+}
+
+.time-to-test-drive .avg-dot:hover {
+  r: 10;
+}
+
+/* Headless mode */
+.time-to-test-drive.headless {
+  padding: var(--spacing-md);
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.time-to-test-drive.headless .chart-content {
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.time-to-test-drive.headless .map-area {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  border-right: none;
+  border-bottom: 1px solid var(--color-light-gray);
+  padding-right: 0;
+  padding-bottom: var(--spacing-md);
+}
+
+.time-to-test-drive.headless .map-area .uae-map-container {
+  height: 100%;
+  width: 100%;
+}
+
+.time-to-test-drive.headless .chart-area {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+}
+
+.time-to-test-drive.headless .chart-area svg {
+  width: 100%;
+  height: 100%;
+}
+
+.time-to-test-drive.headless .chart-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-navy-dark);
+}

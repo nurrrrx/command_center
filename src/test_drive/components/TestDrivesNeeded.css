@@ -1,0 +1,57 @@
+@import '../styles/dashboard-shared.css';
+
+.test-drives-needed {
+  position: relative;
+  padding: var(--spacing-lg);
+  background: var(--color-white);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  font-family: var(--font-family);
+}
+
+.test-drives-needed .chart-header {
+  margin-bottom: var(--spacing-md);
+}
+
+.test-drives-needed .chart-title {
+  font-family: var(--font-family);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-navy-dark);
+  margin: 0 0 var(--spacing-xs) 0;
+}
+
+.test-drives-needed .chart-subtitle {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.test-drives-needed .chart-area {
+  min-height: 200px;
+}
+
+.test-drives-needed .segment {
+  transition: opacity 0.15s ease;
+}
+
+.test-drives-needed .segment:hover {
+  opacity: 0.85;
+}
+
+/* Headless mode */
+.test-drives-needed.headless {
+  padding: var(--spacing-md);
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.test-drives-needed.headless .chart-area {
+  flex: 1;
+  min-height: 0;
+}

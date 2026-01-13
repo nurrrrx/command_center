@@ -1,0 +1,43 @@
+@import '../styles/dashboard-shared.css';
+
+.conversion-heatmap {
+  position: relative;
+  padding: var(--spacing-lg);
+  background: var(--color-white);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  font-family: var(--font-family);
+}
+
+.conversion-heatmap .chart-header {
+  margin-bottom: var(--spacing-md);
+}
+
+.conversion-heatmap .chart-title {
+  font-family: var(--font-family);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-navy-dark);
+  margin: 0 0 var(--spacing-xs) 0;
+}
+
+.conversion-heatmap .chart-subtitle {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.conversion-heatmap .chart-area {
+  min-height: 500px;
+}
+
+.conversion-heatmap .cell {
+  transition: opacity 0.15s ease;
+}
+
+.conversion-heatmap .cell:hover {
+  opacity: 0.8;
+  stroke: var(--color-navy-dark);
+  stroke-width: 2;
+}

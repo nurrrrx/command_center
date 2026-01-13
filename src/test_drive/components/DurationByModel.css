@@ -1,0 +1,190 @@
+@import '../styles/dashboard-shared.css';
+
+.duration-by-model {
+  position: relative;
+  padding: var(--spacing-lg);
+  background: var(--color-white);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  font-family: var(--font-family);
+}
+
+.duration-by-model .chart-header {
+  margin-bottom: 0;
+  position: relative;
+}
+
+.duration-by-model .chart-title {
+  font-family: var(--font-family);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-navy-dark);
+  margin: 0;
+}
+
+.duration-by-model .chart-subtitle {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.duration-by-model .legend-inline {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.duration-by-model .legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.duration-by-model .legend-item .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+
+/* Clickable category legend buttons */
+.duration-by-model .legend-button {
+  cursor: pointer;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  transition: opacity 0.2s ease;
+  background: transparent;
+}
+
+.duration-by-model .legend-button:hover {
+  opacity: 0.8;
+}
+
+.duration-by-model .legend-button.active .dot {
+  box-shadow: 0 0 0 2px var(--color-white), 0 0 0 3px currentColor;
+}
+
+.duration-by-model .legend-button.dimmed {
+  opacity: 0.3;
+}
+
+.duration-by-model .chart-area {
+  min-height: 450px;
+  width: 100%;
+}
+
+/* Headless mode */
+.duration-by-model.headless {
+  padding: var(--spacing-md);
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.duration-by-model.headless .chart-area {
+  flex: 1;
+  min-height: 0;
+}
+
+.duration-by-model.headless .chart-area svg {
+  width: 100%;
+  height: 100%;
+}
+
+.duration-by-model.headless .chart-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-navy-dark);
+}
+
+/* Chart type menu */
+.duration-by-model .chart-menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.duration-by-model .menu-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.duration-by-model .menu-trigger:hover {
+  background: var(--color-off-white);
+  color: var(--color-text-primary);
+}
+
+.duration-by-model .menu-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: var(--spacing-xs);
+  background: var(--color-white);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--color-border);
+  min-width: 140px;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.duration-by-model .menu-label {
+  font-family: var(--font-family);
+  padding: var(--spacing-sm) var(--spacing-md) var(--spacing-xs);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.duration-by-model .menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  background: transparent;
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.15s ease;
+}
+
+.duration-by-model .menu-item:hover {
+  background: var(--color-off-white);
+}
+
+.duration-by-model .menu-item.active {
+  color: var(--color-navy-blue);
+  font-weight: var(--font-weight-medium);
+}
+
+.duration-by-model .menu-item svg {
+  color: var(--color-navy-blue);
+}

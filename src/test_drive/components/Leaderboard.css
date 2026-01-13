@@ -1,0 +1,237 @@
+@import '../styles/dashboard-shared.css';
+.leaderboard {
+  position: relative;
+  padding: 16px;
+  background: #FFFFFF;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.leaderboard .chart-header {
+  margin-bottom: 12px;
+}
+
+.leaderboard .chart-title {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #051C2A;
+  margin: 0 0 4px 0;
+}
+
+.leaderboard .chart-subtitle {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  color: #6C757D;
+  margin: 0;
+}
+
+.leaderboard .chart-controls {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #E9ECEF;
+}
+
+.leaderboard .chart-controls.compact {
+  justify-content: flex-end;
+  margin-bottom: 8px;
+  padding: 4px 0;
+  border-bottom: none;
+}
+
+.leaderboard .control-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.leaderboard .control-label {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  color: #4A5568;
+  font-weight: 500;
+}
+
+.leaderboard .chart-toggle {
+  /* Uses flex layout from shared styles - removed absolute positioning */
+}
+
+.leaderboard .toggle-btn {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 400;
+  border: none;
+  background: #F8F9FA;
+  color: #4A5568;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.leaderboard .toggle-btn:not(:last-child) {
+  border-right: 1px solid #DEE2E6;
+}
+
+.leaderboard .toggle-btn:hover {
+  background: #E9ECEF;
+}
+
+.leaderboard .toggle-btn.active {
+  background: #051C2A;
+  color: #FFFFFF;
+}
+
+.leaderboard .sort-select {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  padding: 8px 12px;
+  border: 1px solid #DEE2E6;
+  border-radius: 4px;
+  font-size: 12px;
+  background: #FFFFFF;
+  cursor: pointer;
+}
+
+.leaderboard .chart-area {
+  min-height: 350px;
+  width: 100%;
+}
+
+.leaderboard .bar {
+  transition: opacity 0.15s ease;
+}
+
+.leaderboard .bar:hover {
+  opacity: 0.8;
+}
+
+.leaderboard .group-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 12px;
+  background: #F8F9FA;
+  border-radius: 6px;
+}
+
+.leaderboard .group-legend .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.leaderboard .group-legend .legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.leaderboard .group-legend .legend-label {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  color: #1A202C;
+}
+
+.leaderboard .group-legend .legend-item.clickable {
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.15s ease;
+}
+
+.leaderboard .group-legend .legend-item.clickable:hover {
+  background: #E9ECEF;
+}
+
+.leaderboard .group-legend .legend-item.selected {
+  background: rgba(22, 62, 147, 0.1);
+  outline: 1px solid #163E93;
+}
+
+.leaderboard .clear-filter-btn {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin-left: auto;
+  padding: 4px 12px;
+  font-size: 12px;
+  border: 1px solid #DEE2E6;
+  background: #FFFFFF;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #4A5568;
+  transition: all 0.15s ease;
+}
+
+.leaderboard .clear-filter-btn:hover {
+  background: #F8F9FA;
+  color: #1A202C;
+}
+
+/* Headless mode - remove container styling and fill parent */
+.leaderboard.headless {
+  padding: 12px;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.leaderboard.headless .chart-controls {
+  flex-shrink: 0;
+  margin-bottom: 8px;
+  padding: 8px 0;
+}
+
+.leaderboard.headless .chart-area {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.leaderboard.headless .chart-area::-webkit-scrollbar {
+  width: 6px;
+}
+
+.leaderboard.headless .chart-area::-webkit-scrollbar-track {
+  background: #E9ECEF;
+  border-radius: 3px;
+}
+
+.leaderboard.headless .chart-area::-webkit-scrollbar-thumb {
+  background: #ADB5BD;
+  border-radius: 3px;
+}
+
+.leaderboard.headless .chart-area::-webkit-scrollbar-thumb:hover {
+  background: #6C757D;
+}
+
+.leaderboard.headless .chart-area svg {
+  width: 100%;
+  display: block;
+}
+
+.leaderboard .x-axis-area {
+  flex-shrink: 0;
+  width: 100%;
+  height: 25px;
+  background: #FFFFFF;
+}
+
+.leaderboard.headless .x-axis-area {
+  background: transparent;
+}
+
+.leaderboard .x-axis-area svg {
+  width: 100%;
+  display: block;
+}

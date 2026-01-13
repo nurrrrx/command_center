@@ -1,0 +1,122 @@
+@import '../styles/dashboard-shared.css';
+
+.occurrence-radial {
+  position: relative;
+  padding: var(--spacing-md);
+  background: var(--color-white);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+}
+
+.occurrence-radial .chart-header {
+  flex-shrink: 0;
+  margin-bottom: var(--spacing-xs);
+}
+
+.occurrence-radial .chart-title {
+  font-family: var(--font-family);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-navy-dark);
+  margin: 0;
+}
+
+.occurrence-radial .chart-area {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.occurrence-radial .chart-area svg {
+  display: block;
+}
+
+/* Arc paths */
+.occurrence-radial .arc-path {
+  transition: fill-opacity 0.3s ease;
+}
+
+.occurrence-radial .arc-path:hover {
+  filter: brightness(1.05);
+}
+
+/* Center circle - clickable for navigation */
+.occurrence-radial .center-circle {
+  transition: fill 0.2s ease;
+}
+
+.occurrence-radial .center-circle:hover {
+  fill: var(--color-off-white);
+}
+
+/* Labels */
+.occurrence-radial .arc-label,
+.occurrence-radial .labels-group {
+  pointer-events: none;
+}
+
+.occurrence-radial .arc-label text {
+  user-select: none;
+  font-family: var(--font-family);
+}
+
+/* Leader lines */
+.occurrence-radial .leader-line {
+  pointer-events: none;
+}
+
+/* Center text */
+.occurrence-radial .center-text {
+  pointer-events: none;
+}
+
+.occurrence-radial .center-text text {
+  user-select: none;
+  font-family: var(--font-family);
+}
+
+/* Back button in center */
+.occurrence-radial .back-button {
+  pointer-events: auto !important;
+  transition: fill 0.2s ease;
+  font-family: var(--font-family);
+}
+
+.occurrence-radial .back-button:hover {
+  fill: var(--color-navy-blue) !important;
+  text-decoration: underline;
+}
+
+/* Sunburst tooltip */
+.occurrence-radial .sunburst-tooltip {
+  position: absolute;
+  background: var(--color-navy-dark);
+  color: var(--color-white);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: 6px;
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  line-height: 1.5;
+  pointer-events: none;
+  z-index: 10;
+  max-width: 200px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.occurrence-radial .sunburst-tooltip strong {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+}
