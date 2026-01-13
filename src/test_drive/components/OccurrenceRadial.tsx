@@ -119,15 +119,13 @@ export function OccurrenceRadial({ filters: _filters }: OccurrenceRadialProps) {
     // Labels group will be created after arcs (for proper z-order)
     let labelsGroup: d3.Selection<SVGGElement, unknown, null, undefined>;
 
-    // Function to update labels based on current state - labels positioned next to arcs
+    // Function to update labels - outer arcs get external labels, inner arcs get internal labels
     const updateLabels = (focusNode: HierarchyNode) => {
       labelsGroup.selectAll('*').remove();
 
-      // Get leaf nodes (depth 2) for external labels
-      const leafNodes = nodes.filter(d => d.depth === 2);
       const total = focusNode === root ? occurrenceData.totalBooked : (focusNode.value || 1);
 
-      leafNodes.forEach((d) => {
+      nodes.forEach((d) => {
         const current = (d as any).current;
         const arcSpan = current.x1 - current.x0;
 
@@ -137,60 +135,68 @@ export function OccurrenceRadial({ filters: _filters }: OccurrenceRadialProps) {
         // Skip the focused node itself (it's shown in center)
         if (focusNode !== root && d === focusNode) return;
 
+        // Skip parent nodes when drilled down
+        if (focusNode !== root && d.depth === 1 && d !== focusNode) return;
+
         const pct = ((d.value || 0) / total * 100).toFixed(0);
-
-        // Calculate arc edge point
         const angle = (current.x0 + current.x1) / 2;
-        const arcRadius = current.y1;
-        const arcX = Math.sin(angle) * arcRadius;
-        const arcY = -Math.cos(angle) * arcRadius;
 
-        // Label position - just outside the arc
-        const labelRadius = arcRadius + 8;
-        const labelX = Math.sin(angle) * labelRadius;
-        const labelY = -Math.cos(angle) * labelRadius;
+        if (d.depth === 1) {
+          // Inner arcs (Show/No-Show) - label inside the arc
+          const labelRadius = (current.y0 + current.y1) / 2;
+          const labelX = Math.sin(angle) * labelRadius;
+          const labelY = -Math.cos(angle) * labelRadius;
 
-        // Determine text anchor based on angle
-        const isLeftSide = angle > Math.PI;
-        const textAnchor = Math.abs(angle - Math.PI) < 0.3 ? 'middle' : (isLeftSide ? 'end' : 'start');
+          labelsGroup.append('text')
+            .attr('class', 'inner-label')
+            .attr('x', labelX)
+            .attr('y', labelY)
+            .attr('text-anchor', 'middle')
+            .attr('dy', '0.35em')
+            .style('font-size', '10px')
+            .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif")
+            .style('font-weight', '600')
+            .style('fill', 'white')
+            .style('pointer-events', 'none')
+            .text(`${d.data.name} ${pct}%`);
+        } else {
+          // Outer arcs (depth 2) - external label with leader line
+          const arcRadius = current.y1;
+          const arcX = Math.sin(angle) * arcRadius;
+          const arcY = -Math.cos(angle) * arcRadius;
 
-        // Draw short leader line from arc edge to label
-        labelsGroup.append('line')
-          .attr('class', 'leader-line')
-          .attr('x1', arcX)
-          .attr('y1', arcY)
-          .attr('x2', labelX)
-          .attr('y2', labelY)
-          .attr('stroke', '#bbb')
-          .attr('stroke-width', 1)
-          .style('pointer-events', 'none');
+          const labelRadius = arcRadius + 6;
+          const labelX = Math.sin(angle) * labelRadius;
+          const labelY = -Math.cos(angle) * labelRadius;
 
-        // Add label text (name + percentage on same line)
-        labelsGroup.append('text')
-          .attr('class', 'external-label')
-          .attr('x', labelX + (textAnchor === 'start' ? 4 : textAnchor === 'end' ? -4 : 0))
-          .attr('y', labelY)
-          .attr('text-anchor', textAnchor)
-          .attr('dy', '0.35em')
-          .style('font-size', '9px')
-          .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif")
-          .style('font-weight', '500')
-          .style('fill', '#333')
-          .style('pointer-events', 'none')
-          .text(`${d.data.name} `);
+          const isLeftSide = angle > Math.PI;
+          const textAnchor = Math.abs(angle - Math.PI) < 0.3 ? 'middle' : (isLeftSide ? 'end' : 'start');
 
-        // Add percentage after name
-        labelsGroup.append('text')
-          .attr('class', 'external-pct')
-          .attr('x', labelX + (textAnchor === 'start' ? 4 : textAnchor === 'end' ? -4 : 0))
-          .attr('y', labelY + 11)
-          .attr('text-anchor', textAnchor)
-          .style('font-size', '9px')
-          .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif")
-          .style('font-weight', '600')
-          .style('fill', colorScheme[d.data.name] || '#666')
-          .style('pointer-events', 'none')
-          .text(`${pct}%`);
+          // Short leader line
+          labelsGroup.append('line')
+            .attr('class', 'leader-line')
+            .attr('x1', arcX)
+            .attr('y1', arcY)
+            .attr('x2', labelX)
+            .attr('y2', labelY)
+            .attr('stroke', '#bbb')
+            .attr('stroke-width', 1)
+            .style('pointer-events', 'none');
+
+          // Label: name and percentage on one line
+          labelsGroup.append('text')
+            .attr('class', 'external-label')
+            .attr('x', labelX + (textAnchor === 'start' ? 3 : textAnchor === 'end' ? -3 : 0))
+            .attr('y', labelY)
+            .attr('text-anchor', textAnchor)
+            .attr('dy', '0.35em')
+            .style('font-size', '9px')
+            .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif")
+            .style('font-weight', '500')
+            .style('fill', colorScheme[d.data.name] || '#333')
+            .style('pointer-events', 'none')
+            .text(`${d.data.name} ${pct}%`);
+        }
       });
     };
 

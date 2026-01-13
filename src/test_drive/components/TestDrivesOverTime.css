@@ -159,7 +159,7 @@
   min-height: 0;
   position: relative;
   width: 100%;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .test-drives-over-time .chart-area svg {
@@ -174,7 +174,10 @@
   padding: 8px 12px;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 11px;
+  color: #333;
+  line-height: 1.4;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   pointer-events: none;
   z-index: 100;
+  white-space: nowrap;
 }
