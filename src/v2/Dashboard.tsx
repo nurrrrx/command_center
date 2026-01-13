@@ -22,6 +22,7 @@ import { TopChannelsPreference } from "../test_drive/components/TopChannelsPrefe
 import { TopShowroomsPreference } from "../test_drive/components/TopShowroomsPreference"
 import { CustomerInsights } from "../test_drive/components/CustomerInsights"
 import { LiveTestDrives } from "../test_drive/components/LiveTestDrives"
+import { TestDriveProcess } from "../test_drive/components/TestDriveProcess"
 
 import { LEXUS_MODELS, UAE_SHOWROOMS_DATA, LEAD_SOURCES, popularModelsWithFunnelData, demographicsByAgeGender, genderByAgeData, modelPreferencesData, channelPreferencesData, showroomPreferencesData } from "../test_drive/data/mockData"
 
@@ -57,6 +58,7 @@ const BASE_TABS = [
   { id: 'carmodel', label: 'Car Model Performance', shortLabel: 'Models', isCustom: false },
   { id: 'leaderboards', label: 'Leaderboards', shortLabel: 'Leaders', isCustom: false },
   { id: 'v2demographics', label: 'Customer Insights', shortLabel: 'Insights', isCustom: false },
+  { id: 'testdriveprocess', label: 'Test Drive Process', shortLabel: 'Process', isCustom: false },
 ] as const
 
 interface CustomTab {
@@ -845,6 +847,15 @@ export function V2Dashboard() {
             </div>
             <div className="placeholder-card">
               <CustomerInsights headless />
+            </div>
+          </div>
+        )
+
+      case 'testdriveprocess':
+        return (
+          <div className="tab-content-grid layout11-grid">
+            <div className="placeholder-card">
+              <TestDriveProcess headless />
             </div>
           </div>
         )
