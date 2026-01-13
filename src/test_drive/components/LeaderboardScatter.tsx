@@ -148,9 +148,9 @@ export function LeaderboardScatter({ data, valueLabel = 'Test Drives', selectedN
 
     points.append('circle')
       .attr('r', d => selectedName === d.name ? 6 : 4)
-      .attr('fill', d => selectedName === d.name ? '#ea4335' : '#4285f4')
+      .attr('fill', d => selectedName === d.name ? '#BF0404' : '#051C2A')
       .attr('fill-opacity', d => selectedName && selectedName !== d.name ? 0.3 : 0.7)
-      .attr('stroke', d => selectedName === d.name ? '#ea4335' : '#4285f4')
+      .attr('stroke', d => selectedName === d.name ? '#BF0404' : '#051C2A')
       .attr('stroke-width', d => selectedName === d.name ? 2 : 1);
 
     // Add rank number label for top 10 or selected point
@@ -162,9 +162,9 @@ export function LeaderboardScatter({ data, valueLabel = 'Test Drives', selectedN
       .attr('class', 'point-label')
       .attr('x', 6)
       .attr('y', 3)
-      .style('font-size', '8px')
+      .style('font-size', '9px')
       .style('font-weight', d => selectedName === d.name ? '700' : '500')
-      .style('fill', d => selectedName === d.name ? '#ea4335' : '#666')
+      .style('fill', d => selectedName === d.name ? '#BF0404' : '#666')
       .text(d => `#${rankMap.get(d.name)}`);
 
     // Tooltip on hover

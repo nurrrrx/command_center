@@ -72,7 +72,8 @@ export function TestDriveCompletion({ filters: _filters }: TestDriveCompletionPr
       .attr('transform', d => `translate(${arc.centroid(d)})`)
       .attr('text-anchor', 'middle')
       .attr('dy', '0.35em')
-      .style('font-size', '14px')
+      .style('font-size', '12px')
+      .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif")
       .style('font-weight', '600')
       .style('fill', 'white')
       .text(d => `${((d.data.value / completionData.total) * 100).toFixed(0)}%`);
@@ -82,7 +83,8 @@ export function TestDriveCompletion({ filters: _filters }: TestDriveCompletionPr
       .attr('class', 'center-total')
       .attr('text-anchor', 'middle')
       .attr('dy', '-0.5em')
-      .style('font-size', '32px')
+      .style('font-size', '24px')
+      .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif")
       .style('font-weight', '700')
       .style('fill', '#1a1a1a')
       .text(completionData.total.toLocaleString());
@@ -91,7 +93,8 @@ export function TestDriveCompletion({ filters: _filters }: TestDriveCompletionPr
       .attr('class', 'center-label')
       .attr('text-anchor', 'middle')
       .attr('dy', '1.5em')
-      .style('font-size', '14px')
+      .style('font-size', '11px')
+      .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif")
       .style('fill', '#666')
       .text('Total Test Drives');
 

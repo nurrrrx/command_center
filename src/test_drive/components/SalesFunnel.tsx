@@ -40,10 +40,10 @@ export function SalesFunnel({ headless = false, selectedSource: externalSelected
     const containerHeight = containerRect.height || 480;
 
     // Use container size in headless mode, fixed size otherwise
-    // Top margin for legend + clear filter, left for labels, right for drop-off indicators
+    // Top margin reduced since legend is now HTML, left for labels, right for drop-off indicators
     const margin = headless
-      ? { top: 75, right: 95, bottom: 10, left: 115 }
-      : { top: 65, right: 110, bottom: 20, left: 130 };
+      ? { top: 20, right: 95, bottom: 10, left: 115 }
+      : { top: 20, right: 110, bottom: 20, left: 130 };
     const width = headless ? containerWidth : 950;
     const height = headless ? containerHeight : 480;
     const innerWidth = width - margin.left - margin.right;
@@ -87,43 +87,7 @@ export function SalesFunnel({ headless = false, selectedSource: externalSelected
     const minWidth = maxFunnelWidth * 0.3;
     const centerX = innerWidth / 2;
 
-    // Legend at top (above the chart area) - grid layout spanning full width
-    const legendCols = 5; // 5 columns for the grid
-    const legendItemHeight = 16;
-    const legendItemWidth = innerWidth / legendCols; // Distribute evenly across full width
-    const legendStartX = 0; // Start from left edge
-    const legendStartY = -35;
-
-    salesFunnelBySource.forEach((source, i) => {
-      const col = i % legendCols;
-      const row = Math.floor(i / legendCols);
-      const lx = legendStartX + col * legendItemWidth;
-      const ly = legendStartY + row * legendItemHeight;
-
-      const legendG = g.append('g')
-        .attr('transform', `translate(${lx}, ${ly})`)
-        .style('cursor', 'pointer')
-        .on('click', () => {
-          handleSourceSelect(selectedSource === source.source ? null : source.source);
-        });
-
-      legendG.append('rect')
-        .attr('x', 0)
-        .attr('y', -5)
-        .attr('width', 10)
-        .attr('height', 10)
-        .attr('rx', 2)
-        .attr('fill', LEAD_SOURCE_COLORS[source.source] || '#999')
-        .attr('opacity', selectedSource === null || selectedSource === source.source ? 1 : 0.4);
-
-      legendG.append('text')
-        .attr('x', 14)
-        .attr('y', 0)
-        .attr('dy', '0.35em')
-        .style('font-size', '9px')
-        .style('fill', selectedSource === null || selectedSource === source.source ? '#333' : '#999')
-        .text(`${source.source} (${source.requests.toLocaleString()})`);
-    });
+    // Legend is now rendered as HTML outside SVG for better layout control
 
     // Stacked bar for lead sources - same width as top funnel level
     const barHeight = 35;
@@ -180,6 +144,7 @@ export function SalesFunnel({ headless = false, selectedSource: externalSelected
           .attr('text-anchor', 'middle')
           .attr('dy', '0.35em')
           .style('font-size', '10px')
+          .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif")
           .style('font-weight', '600')
           .style('fill', 'white')
           .style('pointer-events', 'none')
@@ -191,7 +156,8 @@ export function SalesFunnel({ headless = false, selectedSource: externalSelected
           .attr('y', segmentCenterY)
           .attr('text-anchor', 'middle')
           .attr('dy', '0.35em')
-          .style('font-size', '9px')
+          .style('font-size', '10px')
+          .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif")
           .style('font-weight', '500')
           .style('fill', 'white')
           .style('pointer-events', 'none')
@@ -252,6 +218,7 @@ export function SalesFunnel({ headless = false, selectedSource: externalSelected
         .attr('text-anchor', 'start')
         .attr('dy', '0.35em')
         .style('font-size', '11px')
+        .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif")
         .style('font-weight', '500')
         .style('fill', '#333')
         .text(stage.name);
@@ -261,8 +228,9 @@ export function SalesFunnel({ headless = false, selectedSource: externalSelected
         .attr('x', centerX)
         .attr('y', y + stageHeight / 2 - 6)
         .attr('text-anchor', 'middle')
-        .style('font-size', '16px')
-        .style('font-weight', '700')
+        .style('font-size', '14px')
+        .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif")
+        .style('font-weight', '600')
         .style('fill', 'white')
         .text(stage.value.toLocaleString());
 
@@ -273,6 +241,7 @@ export function SalesFunnel({ headless = false, selectedSource: externalSelected
         .attr('y', y + stageHeight / 2 + 10)
         .attr('text-anchor', 'middle')
         .style('font-size', '10px')
+        .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif")
         .style('fill', 'rgba(255,255,255,0.9)')
         .text(`${convRate}%`);
 
@@ -287,6 +256,7 @@ export function SalesFunnel({ headless = false, selectedSource: externalSelected
           .attr('text-anchor', 'end')
           .attr('dy', '0.35em')
           .style('font-size', '10px')
+          .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif")
           .style('fill', '#BF0404')
           .text(`-${dropOff.toLocaleString()} (${dropOffPct}%)`);
       }
@@ -329,6 +299,24 @@ export function SalesFunnel({ headless = false, selectedSource: externalSelected
           </button>
         )}
       </div>
+
+      {/* HTML Legend for better layout control */}
+      <div className="funnel-legend">
+        {salesFunnelBySource.map((source) => (
+          <button
+            key={source.source}
+            className={`legend-item ${selectedSource === source.source ? 'selected' : ''} ${selectedSource && selectedSource !== source.source ? 'dimmed' : ''}`}
+            onClick={() => handleSourceSelect(selectedSource === source.source ? null : source.source)}
+          >
+            <span
+              className="legend-dot"
+              style={{ backgroundColor: LEAD_SOURCE_COLORS[source.source] || '#999' }}
+            />
+            <span className="legend-text">{source.source} ({source.requests.toLocaleString()})</span>
+          </button>
+        ))}
+      </div>
+
       <div className="chart-area" />
       {headless && selectedSource && (
         <button className="clear-filter-btn headless-clear" onClick={() => handleSourceSelect(null)}>

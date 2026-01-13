@@ -156,7 +156,7 @@ export function UAEMap({ onShowroomClick, onShowroomHover }: UAEMapProps) {
         source: 'showrooms',
         paint: {
           'circle-radius': 14,
-          'circle-color': '#4285f4',
+          'circle-color': '#051C2A',
           'circle-opacity': 0.15,
           'circle-blur': 1
         }
@@ -173,9 +173,9 @@ export function UAEMap({ onShowroomClick, onShowroomHover }: UAEMapProps) {
             'interpolate',
             ['linear'],
             ['get', 'avgDays'],
-            2, '#34a853',
-            3.5, '#fbbc04',
-            5, '#ea4335'
+            2, '#025645',
+            3.5, '#E6B437',
+            5, '#BF0404'
           ],
           'circle-stroke-color': '#ffffff',
           'circle-stroke-width': 2
@@ -301,15 +301,15 @@ export function UAEMap({ onShowroomClick, onShowroomHover }: UAEMapProps) {
         <span className="legend-title">Avg. Days to Test Drive</span>
         <div className="legend-items">
           <span className="legend-item">
-            <span className="dot" style={{ backgroundColor: '#34a853' }} />
+            <span className="dot" style={{ backgroundColor: '#025645' }} />
             Fast (&lt;3d)
           </span>
           <span className="legend-item">
-            <span className="dot" style={{ backgroundColor: '#fbbc04' }} />
+            <span className="dot" style={{ backgroundColor: '#E6B437' }} />
             Medium
           </span>
           <span className="legend-item">
-            <span className="dot" style={{ backgroundColor: '#ea4335' }} />
+            <span className="dot" style={{ backgroundColor: '#BF0404' }} />
             Slow (&gt;4d)
           </span>
         </div>

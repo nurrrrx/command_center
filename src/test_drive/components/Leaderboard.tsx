@@ -172,7 +172,7 @@ export function Leaderboard({
       .attr('x2', xScale(avgValue))
       .attr('y1', -10)
       .attr('y2', innerHeight + 10)
-      .attr('stroke', '#ea4335')
+      .attr('stroke', '#BF0404')
       .attr('stroke-width', 2)
       .attr('stroke-dasharray', '5,5');
 
@@ -182,7 +182,7 @@ export function Leaderboard({
       .attr('y', -15)
       .attr('text-anchor', 'middle')
       .style('font-size', '10px')
-      .style('fill', '#ea4335')
+      .style('fill', '#BF0404')
       .style('font-weight', '600')
       .text(`Avg: ${metric === 'conversion' ? avgValue.toFixed(1) + '%' : Math.round(avgValue).toLocaleString()}`);
 
@@ -199,7 +199,7 @@ export function Leaderboard({
       .style('font-size', '11px')
       .style('fill', d => {
         const name = String(d).replace(/^#\d+\s-\s/, '');
-        if (selectedName === name) return '#ea4335';
+        if (selectedName === name) return '#BF0404';
         if (showGroupColors) {
           const item = sortedData.find(item => item.name === name);
           return item?.color || '#333';

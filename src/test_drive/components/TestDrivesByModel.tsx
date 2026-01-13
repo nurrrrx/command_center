@@ -7,19 +7,19 @@ import './TestDrivesByModel.css';
 type TimePeriod = '1M' | '3M' | '6M' | '1Y' | 'ALL';
 
 const MODEL_COLORS: Record<string, string> = {
-  'RX 350': '#4285f4',
-  'LX 600': '#ea4335',
-  'NX 350': '#34a853',
-  'ES 350': '#fbbc04',
-  'GX 460': '#9334e6',
-  'IS 350': '#00bcd4',
-  'LC 500': '#ff5722',
-  'LS 500': '#3f51b5',
-  'UX 250h': '#795548',
-  'RZ 450e': '#e91e63',
-  'TX 350': '#009688',
-  'TX 500h': '#673ab7',
-  'TX 550h+': '#ff9800'
+  'RX 350': '#051C2A',
+  'LX 600': '#163E93',
+  'NX 350': '#30A3DA',
+  'ES 350': '#060200',
+  'GX 460': '#025645',
+  'IS 350': '#337B68',
+  'LC 500': '#E6B437',
+  'LS 500': '#BF0404',
+  'UX 250h': '#979797',
+  'RZ 450e': '#9B00F5',
+  'TX 350': '#051C2A',
+  'TX 500h': '#163E93',
+  'TX 550h+': '#30A3DA'
 };
 
 interface ModelPerformance {
@@ -165,7 +165,7 @@ export function TestDrivesByModel({ filters: _filters }: TestDrivesByModelProps)
       g.append('path')
         .datum(model.sparklineData)
         .attr('d', area)
-        .attr('fill', model.changePercent >= 0 ? 'rgba(52, 168, 83, 0.15)' : 'rgba(234, 67, 53, 0.15)');
+        .attr('fill', model.changePercent >= 0 ? 'rgba(2, 86, 69, 0.15)' : 'rgba(191, 4, 4, 0.15)');
 
       // Line
       const line = d3.line<typeof model.sparklineData[0]>()
@@ -177,7 +177,7 @@ export function TestDrivesByModel({ filters: _filters }: TestDrivesByModelProps)
         .datum(model.sparklineData)
         .attr('d', line)
         .attr('fill', 'none')
-        .attr('stroke', model.changePercent >= 0 ? '#34a853' : '#ea4335')
+        .attr('stroke', model.changePercent >= 0 ? '#025645' : '#BF0404')
         .attr('stroke-width', 1.5);
 
       // End dot
@@ -187,7 +187,7 @@ export function TestDrivesByModel({ filters: _filters }: TestDrivesByModelProps)
           .attr('cx', xScale(lastPoint.date))
           .attr('cy', yScale(lastPoint.value))
           .attr('r', 3)
-          .attr('fill', model.changePercent >= 0 ? '#34a853' : '#ea4335');
+          .attr('fill', model.changePercent >= 0 ? '#025645' : '#BF0404');
       }
     });
   }, [modelPerformance]);

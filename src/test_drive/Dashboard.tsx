@@ -76,11 +76,14 @@ const defaultFilters: GlobalFilters = {
 export function TestDriveDashboard() {
   const [filters, setFilters] = useState<GlobalFilters>(defaultFilters);
 
-  // Convert GlobalFilters to the simpler format expected by some components
+  // Convert GlobalFilters to ensure correct types
   const simpleFilters = useMemo(() => ({
-    startDate: filters.startDate ?? undefined,
-    endDate: filters.endDate ?? undefined,
-  }), [filters.startDate, filters.endDate]);
+    startDate: filters.startDate ?? null,
+    endDate: filters.endDate ?? null,
+    model: filters.model ?? null,
+    showroom: filters.showroom ?? null,
+    channel: filters.channel ?? null,
+  }), [filters]);
 
   // Get showroom names for FilterBar
   const showroomNames = useMemo(() => UAE_SHOWROOMS_DATA.map(s => s.shortName), []);

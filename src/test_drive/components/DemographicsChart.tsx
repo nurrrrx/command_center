@@ -194,8 +194,8 @@ export function DemographicsChart({ filters: _filters }: DemographicsChartProps)
     const innerRadius = radius * 0.55; // Donut hole
 
     const colors = {
-      Male: '#4285f4',
-      Female: '#ea4335'
+      Male: '#051C2A',
+      Female: '#163E93'
     };
 
     const svg = d3.select(pieChartRef.current)
@@ -345,7 +345,7 @@ export function DemographicsChart({ filters: _filters }: DemographicsChartProps)
                 >
                   <span
                     className="legend-swatch"
-                    style={{ backgroundColor: d.gender === 'Male' ? '#4285f4' : '#ea4335' }}
+                    style={{ backgroundColor: d.gender === 'Male' ? '#051C2A' : '#163E93' }}
                   />
                   <span className="legend-label">{d.gender}</span>
                   <span className="legend-value">{d.count.toLocaleString()}</span>

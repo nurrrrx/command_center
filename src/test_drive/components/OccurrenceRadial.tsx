@@ -31,8 +31,8 @@ export function OccurrenceRadial({ filters: _filters }: OccurrenceRadialProps) {
     const containerWidth = chartArea.clientWidth || 300;
     const containerHeight = chartArea.clientHeight || 300;
     const size = Math.min(containerWidth, containerHeight);
-    // Minimal margin for the chart
-    const radius = size / 2 - 10;
+    // Leave margin for labels around the chart
+    const radius = size / 2 - 50;
 
     // Prepare hierarchical data
     const hierarchyData = {
@@ -119,117 +119,78 @@ export function OccurrenceRadial({ filters: _filters }: OccurrenceRadialProps) {
     // Labels group will be created after arcs (for proper z-order)
     let labelsGroup: d3.Selection<SVGGElement, unknown, null, undefined>;
 
-    // Function to update labels based on current state
+    // Function to update labels based on current state - labels positioned next to arcs
     const updateLabels = (focusNode: HierarchyNode) => {
       labelsGroup.selectAll('*').remove();
 
-      // Show percentage inside all visible arcs
-      nodes.forEach(d => {
+      // Get leaf nodes (depth 2) for external labels
+      const leafNodes = nodes.filter(d => d.depth === 2);
+      const total = focusNode === root ? occurrenceData.totalBooked : (focusNode.value || 1);
+
+      leafNodes.forEach((d) => {
         const current = (d as any).current;
         const arcSpan = current.x1 - current.x0;
 
         // Skip if arc is too small or not visible
-        if (arcSpan < 0.3 || current.y1 <= 0) return;
+        if (arcSpan < 0.05 || current.y1 <= 0) return;
 
         // Skip the focused node itself (it's shown in center)
         if (focusNode !== root && d === focusNode) return;
 
-        const angle = (current.x0 + current.x1) / 2;
-        const total = focusNode === root ? occurrenceData.totalBooked : (focusNode.value || 1);
         const pct = ((d.value || 0) / total * 100).toFixed(0);
 
-        // Position label in the center of the arc
-        const labelRadius = (current.y0 + current.y1) / 2;
-        const x = Math.sin(angle) * labelRadius;
-        const y = -Math.cos(angle) * labelRadius;
-
-        // Add percentage label inside arc
-        labelsGroup.append('text')
-          .attr('class', 'arc-label')
-          .attr('x', x)
-          .attr('y', y)
-          .attr('text-anchor', 'middle')
-          .attr('dy', '0.35em')
-          .style('font-size', '12px')
-          .style('font-weight', '600')
-          .style('fill', 'white')
-          .style('pointer-events', 'none')
-          .text(`${pct}%`);
-      });
-
-      // Add leader lines to all visible arcs
-      const visibleNodes = nodes.filter(d => {
-        const current = (d as any).current;
-        const arcSpan = current.x1 - current.x0;
-        if (arcSpan < 0.15 || current.y1 <= 0) return false;
-
-        // Skip the focused node itself (shown in center)
-        if (focusNode !== root && d === focusNode) return false;
-
-        return true;
-      });
-
-      visibleNodes.forEach(d => {
-        const current = (d as any).current;
+        // Calculate arc edge point
         const angle = (current.x0 + current.x1) / 2;
+        const arcRadius = current.y1;
+        const arcX = Math.sin(angle) * arcRadius;
+        const arcY = -Math.cos(angle) * arcRadius;
 
-        const total = focusNode === root ? occurrenceData.totalBooked : (focusNode.value || 1);
-        const pct = ((d.value || 0) / total * 100).toFixed(0);
-        const count = (d.value || 0).toLocaleString();
+        // Label position - just outside the arc
+        const labelRadius = arcRadius + 8;
+        const labelX = Math.sin(angle) * labelRadius;
+        const labelY = -Math.cos(angle) * labelRadius;
 
-        // Calculate points for leader line
-        const arcOuterRadius = current.y1 - 2;
-        const startX = Math.sin(angle) * arcOuterRadius;
-        const startY = -Math.cos(angle) * arcOuterRadius;
+        // Determine text anchor based on angle
+        const isLeftSide = angle > Math.PI;
+        const textAnchor = Math.abs(angle - Math.PI) < 0.3 ? 'middle' : (isLeftSide ? 'end' : 'start');
 
-        const midRadius = radius + 5;
-        const midX = Math.sin(angle) * midRadius;
-        const midY = -Math.cos(angle) * midRadius;
-
-        const isRightSide = angle < Math.PI;
-        const endX = isRightSide ? radius + 12 : -(radius + 12);
-        const endY = midY;
-
-        // Draw leader line - black and thin
-        labelsGroup.append('path')
+        // Draw short leader line from arc edge to label
+        labelsGroup.append('line')
           .attr('class', 'leader-line')
-          .attr('d', `M ${startX} ${startY} L ${midX} ${midY} L ${endX} ${endY}`)
-          .attr('fill', 'none')
-          .attr('stroke', '#333')
-          .attr('stroke-width', 1);
-
-        // Draw small circle at start of line
-        labelsGroup.append('circle')
-          .attr('cx', startX)
-          .attr('cy', startY)
-          .attr('r', 2)
-          .attr('fill', '#333');
-
-        // Position text at end of line
-        const textAnchor = isRightSide ? 'start' : 'end';
-        const textX = isRightSide ? endX + 6 : endX - 6;
-
-        const labelGroup = labelsGroup.append('g')
-          .attr('class', 'arc-label')
-          .attr('transform', `translate(${textX}, ${endY})`)
+          .attr('x1', arcX)
+          .attr('y1', arcY)
+          .attr('x2', labelX)
+          .attr('y2', labelY)
+          .attr('stroke', '#bbb')
+          .attr('stroke-width', 1)
           .style('pointer-events', 'none');
 
-        // Category name
-        labelGroup.append('text')
+        // Add label text (name + percentage on same line)
+        labelsGroup.append('text')
+          .attr('class', 'external-label')
+          .attr('x', labelX + (textAnchor === 'start' ? 4 : textAnchor === 'end' ? -4 : 0))
+          .attr('y', labelY)
           .attr('text-anchor', textAnchor)
-          .attr('dy', '-0.4em')
-          .style('font-size', '12px')
-          .style('font-weight', '600')
+          .attr('dy', '0.35em')
+          .style('font-size', '9px')
+          .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif")
+          .style('font-weight', '500')
           .style('fill', '#333')
-          .text(d.data.name);
+          .style('pointer-events', 'none')
+          .text(`${d.data.name} `);
 
-        // Value on second line
-        labelGroup.append('text')
+        // Add percentage after name
+        labelsGroup.append('text')
+          .attr('class', 'external-pct')
+          .attr('x', labelX + (textAnchor === 'start' ? 4 : textAnchor === 'end' ? -4 : 0))
+          .attr('y', labelY + 11)
           .attr('text-anchor', textAnchor)
-          .attr('dy', '1em')
-          .style('font-size', '11px')
-          .style('fill', '#666')
-          .text(count);
+          .style('font-size', '9px')
+          .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif")
+          .style('font-weight', '600')
+          .style('fill', colorScheme[d.data.name] || '#666')
+          .style('pointer-events', 'none')
+          .text(`${pct}%`);
       });
     };
 

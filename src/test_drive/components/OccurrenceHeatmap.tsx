@@ -236,6 +236,7 @@ export function OccurrenceHeatmap({ filters: _filters }: OccurrenceHeatmapProps)
       .attr('x', 10)
       .attr('y', 20)
       .style('font-size', '14px')
+      .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif")
       .style('font-weight', '600')
       .style('fill', '#1a1a1a')
       .text('Test Drive Attendance');

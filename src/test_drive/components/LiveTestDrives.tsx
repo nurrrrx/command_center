@@ -698,13 +698,6 @@ export function LiveTestDrives({ headless = false }: LiveTestDrivesProps) {
 
   return (
     <div className={`live-test-drives ${headless ? 'headless' : ''}`}>
-      <div className="chart-header">
-        <h3 className="chart-title">
-          <span className="live-indicator"></span>
-          Live Test Drives
-        </h3>
-        <span className="live-count">{cars.length} Active</span>
-      </div>
       <div className="map-container">
         <div ref={mapContainerRef} className="live-map" />
       </div>

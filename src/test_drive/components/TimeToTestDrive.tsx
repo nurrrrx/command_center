@@ -137,7 +137,7 @@ export function TimeToTestDrive({ filters: _filters, headless = false, useMapV1 
       .attr('cx', d => xScale(d.minDays))
       .attr('cy', d => (yScale(d.showroom) || 0) + yScale.bandwidth() / 2)
       .attr('r', 5)
-      .attr('fill', '#34a853');
+      .attr('fill', '#025645');
 
     // Max dots
     g.selectAll('.max-dot')
@@ -148,7 +148,7 @@ export function TimeToTestDrive({ filters: _filters, headless = false, useMapV1 
       .attr('cx', d => xScale(d.maxDays))
       .attr('cy', d => (yScale(d.showroom) || 0) + yScale.bandwidth() / 2)
       .attr('r', 5)
-      .attr('fill', '#ea4335');
+      .attr('fill', '#BF0404');
 
     // Average dots (larger)
     g.selectAll('.avg-dot')
@@ -159,23 +159,30 @@ export function TimeToTestDrive({ filters: _filters, headless = false, useMapV1 
       .attr('cx', d => xScale(d.avgDays))
       .attr('cy', d => (yScale(d.showroom) || 0) + yScale.bandwidth() / 2)
       .attr('r', 8)
-      .attr('fill', '#4285f4')
+      .attr('fill', '#051C2A')
       .attr('stroke', 'white')
       .attr('stroke-width', 2);
 
-    // Average labels
+    // Average labels - show to the right of each average dot
     g.selectAll('.avg-label')
       .data(sortedData)
       .enter()
       .append('text')
       .attr('class', 'avg-label')
-      .attr('x', d => xScale(d.avgDays))
-      .attr('y', d => (yScale(d.showroom) || 0) + yScale.bandwidth() / 2 - 15)
-      .attr('text-anchor', 'middle')
-      .style('font-size', '11px')
+      .attr('x', d => xScale(d.avgDays) + 14)
+      .attr('y', d => (yScale(d.showroom) || 0) + yScale.bandwidth() / 2)
+      .attr('text-anchor', 'start')
+      .attr('dy', '0.35em')
+      .style('font-size', '9px')
+      .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif")
       .style('font-weight', '600')
-      .style('fill', '#4285f4')
+      .style('fill', '#051C2A')
       .text(d => `${d.avgDays}d`);
+
+    // Add tooltips to average dots for more details
+    g.selectAll('.avg-dot')
+      .append('title')
+      .text((d: any) => `${d.showroom}: ${d.avgDays} days avg (${d.minDays}-${d.maxDays} range)`);
 
     // Y-axis
     g.append('g')
@@ -183,14 +190,18 @@ export function TimeToTestDrive({ filters: _filters, headless = false, useMapV1 
       .call(d3.axisLeft(yScale).tickSize(0).tickPadding(10))
       .call(g => g.select('.domain').remove())
       .selectAll('text')
-      .style('font-size', '11px');
+      .style('font-size', '11px')
+      .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif");
 
     // X-axis
     g.append('g')
       .attr('class', 'x-axis')
       .attr('transform', `translate(0, ${innerHeight})`)
       .call(d3.axisBottom(xScale).ticks(5).tickFormat(d => `${d}d`))
-      .call(g => g.select('.domain').attr('stroke', '#ccc'));
+      .call(g => g.select('.domain').attr('stroke', '#ccc'))
+      .selectAll('text')
+      .style('font-size', '10px')
+      .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif");
 
     // X-axis label
     g.append('text')
@@ -198,7 +209,8 @@ export function TimeToTestDrive({ filters: _filters, headless = false, useMapV1 
       .attr('x', innerWidth / 2)
       .attr('y', innerHeight + 35)
       .attr('text-anchor', 'middle')
-      .style('font-size', '12px')
+      .style('font-size', '10px')
+      .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif")
       .style('fill', '#666')
       .text('Days from Lead to Test Drive');
 
@@ -242,10 +254,10 @@ export function TimeToTestDrive({ filters: _filters, headless = false, useMapV1 
     yAxisLabels.forEach((label) => {
       if (activeShowroom && label.textContent === activeShowroom) {
         (label as SVGTextElement).style.fontWeight = '700';
-        (label as SVGTextElement).style.fill = '#4285f4';
+        (label as SVGTextElement).style.fill = '#051C2A';
       } else if (selectedShowroom && label.textContent === selectedShowroom && !hoveredShowroom) {
         (label as SVGTextElement).style.fontWeight = '700';
-        (label as SVGTextElement).style.fill = '#4285f4';
+        (label as SVGTextElement).style.fill = '#051C2A';
       } else {
         (label as SVGTextElement).style.fontWeight = '400';
         (label as SVGTextElement).style.fill = selectedShowroom && !hoveredShowroom ? '#ccc' : '#666';
@@ -322,15 +334,15 @@ export function TimeToTestDrive({ filters: _filters, headless = false, useMapV1 
       {!headless && (
         <div className="legend-inline">
           <span className="legend-item">
-            <span className="dot" style={{ backgroundColor: '#34a853' }} />
+            <span className="dot" style={{ backgroundColor: '#025645' }} />
             Min
           </span>
           <span className="legend-item">
-            <span className="dot" style={{ backgroundColor: '#4285f4' }} />
+            <span className="dot" style={{ backgroundColor: '#051C2A' }} />
             Average
           </span>
           <span className="legend-item">
-            <span className="dot" style={{ backgroundColor: '#ea4335' }} />
+            <span className="dot" style={{ backgroundColor: '#BF0404' }} />
             Max
           </span>
         </div>

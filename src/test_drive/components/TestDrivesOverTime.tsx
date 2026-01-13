@@ -1,44 +1,48 @@
 import { useCallback, useRef, useEffect, useState, useMemo } from 'react';
 import * as d3 from 'd3';
-import { timeSeriesData } from '../data/mockData';
+import { testDriveRecords, filterRecords, type GlobalFilters } from '../data/mockData';
+import { LiveTestDrives } from './LiveTestDrives';
 import './TestDrivesOverTime.css';
 
 type AggregationType = 'day' | 'week' | 'month' | 'year';
 
 interface TestDrivesOverTimeProps {
-  filters?: {
-    startDate?: string;
-    endDate?: string;
-  };
+  filters?: GlobalFilters;
 }
 
 export function TestDrivesOverTime({ filters }: TestDrivesOverTimeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [aggregation, setAggregation] = useState<AggregationType>('month');
+  const [showLive, setShowLive] = useState(false);
 
   const aggregatedData = useMemo(() => {
     const parseDate = d3.timeParse('%Y-%m-%d');
 
-    let data = timeSeriesData;
+    // Apply all filters using the new filterRecords function
+    const defaultFilters: GlobalFilters = {
+      startDate: null,
+      endDate: null,
+      model: null,
+      showroom: null,
+      channel: null
+    };
+    const activeFilters = filters || defaultFilters;
+    const filteredRecords = filterRecords(testDriveRecords, activeFilters);
 
-    // Filter by date range
-    if (filters?.startDate || filters?.endDate) {
-      data = data.filter(d => {
-        const date = parseDate(d.date);
-        if (!date) return false;
-        if (filters.startDate && date < new Date(filters.startDate)) return false;
-        if (filters.endDate && date > new Date(filters.endDate)) return false;
-        return true;
-      });
-    }
+    // Group by date and count
+    const dateGroups = new Map<string, number>();
+    filteredRecords.forEach(record => {
+      const count = dateGroups.get(record.date) || 0;
+      dateGroups.set(record.date, count + 1);
+    });
 
-    const dataWithDates = data.map(d => ({
-      date: parseDate(d.date)!,
-      testDrives: d.testDrives
-    }));
+    const dataWithDates = Array.from(dateGroups.entries()).map(([date, testDrives]) => ({
+      date: parseDate(date)!,
+      testDrives
+    })).filter(d => d.date !== null);
 
     if (aggregation === 'day') {
-      return dataWithDates;
+      return dataWithDates.sort((a, b) => a.date.getTime() - b.date.getTime());
     }
 
     const grouped = d3.group(dataWithDates, d => {
@@ -55,12 +59,12 @@ export function TestDrivesOverTime({ filters }: TestDrivesOverTimeProps) {
       date,
       testDrives: d3.sum(values, v => v.testDrives)
     })).sort((a, b) => a.date.getTime() - b.date.getTime());
-  }, [aggregation, filters?.startDate, filters?.endDate]);
+  }, [aggregation, filters]);
 
   const renderChart = useCallback(() => {
     if (!containerRef.current) return;
 
-    const chartArea = containerRef.current.querySelector('.chart-area') as HTMLElement;
+    const chartArea = containerRef.current.querySelector('.historical-chart .chart-area') as HTMLElement;
     if (!chartArea) return;
 
     const existingSvg = chartArea.querySelector('svg');
@@ -74,7 +78,7 @@ export function TestDrivesOverTime({ filters }: TestDrivesOverTimeProps) {
     const containerWidth = chartArea.clientWidth || 800;
     const containerHeight = chartArea.clientHeight || 300;
 
-    const margin = { top: 15, right: 20, bottom: 60, left: 50 };
+    const margin = { top: 15, right: 20, bottom: 60, left: 60 };
     const width = containerWidth;
     const height = containerHeight;
     const innerWidth = width - margin.left - margin.right;
@@ -122,7 +126,7 @@ export function TestDrivesOverTime({ filters }: TestDrivesOverTimeProps) {
       .datum(aggregatedData)
       .attr('class', 'area')
       .attr('d', area)
-      .attr('fill', 'rgba(22, 62, 147, 0.15)');
+      .attr('fill', 'rgba(5, 28, 42, 0.15)');
 
     // Line
     const line = d3.line<typeof aggregatedData[0]>()
@@ -135,7 +139,7 @@ export function TestDrivesOverTime({ filters }: TestDrivesOverTimeProps) {
       .attr('class', 'line')
       .attr('d', line)
       .attr('fill', 'none')
-      .attr('stroke', '#163E93')
+      .attr('stroke', '#051C2A')
       .attr('stroke-width', 2);
 
     // Multi-level X-axis
@@ -152,7 +156,8 @@ export function TestDrivesOverTime({ filters }: TestDrivesOverTimeProps) {
         .attr('transform', `translate(0, ${innerHeight})`)
         .call(xAxis)
         .selectAll('text')
-        .style('font-size', '11px')
+        .style('font-size', '10px')
+        .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif")
         .style('font-weight', '500');
 
     } else if (aggregation === 'month') {
@@ -390,16 +395,18 @@ export function TestDrivesOverTime({ filters }: TestDrivesOverTimeProps) {
       .call(d3.axisLeft(yScale).ticks(5).tickFormat(d => d3.format(',')(d as number)))
       .call(g => g.select('.domain').remove())
       .selectAll('text')
-      .style('font-size', '11px');
+      .style('font-size', '10px')
+      .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif");
 
     // Y-axis label
     g.append('text')
       .attr('class', 'axis-label')
       .attr('transform', 'rotate(-90)')
       .attr('x', -innerHeight / 2)
-      .attr('y', -45)
+      .attr('y', -50)
       .attr('text-anchor', 'middle')
-      .style('font-size', '12px')
+      .style('font-size', '10px')
+      .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif")
       .style('fill', '#666')
       .text('Test Drives');
 
@@ -414,7 +421,7 @@ export function TestDrivesOverTime({ filters }: TestDrivesOverTimeProps) {
     const tooltipCircle = g.append('circle')
       .attr('class', 'tooltip-circle')
       .attr('r', 5)
-      .attr('fill', '#163E93')
+      .attr('fill', '#051C2A')
       .attr('stroke', 'white')
       .attr('stroke-width', 2)
       .style('opacity', 0);
@@ -470,14 +477,14 @@ export function TestDrivesOverTime({ filters }: TestDrivesOverTimeProps) {
         tooltip.style('opacity', 0);
       });
 
-  }, [aggregatedData, aggregation]);
+  }, [aggregatedData, aggregation, showLive]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       renderChart();
     }, 50);
 
-    const chartArea = containerRef.current?.querySelector('.chart-area') as HTMLElement;
+    const chartArea = containerRef.current?.querySelector('.historical-chart .chart-area') as HTMLElement;
     if (!chartArea) return;
 
     const resizeObserver = new ResizeObserver(() => {
@@ -492,38 +499,56 @@ export function TestDrivesOverTime({ filters }: TestDrivesOverTimeProps) {
   }, [renderChart]);
 
   return (
-    <div className="test-drives-over-time" ref={containerRef}>
+    <div className={`test-drives-over-time ${showLive ? 'split-view' : ''}`} ref={containerRef}>
       <div className="chart-header">
         <h3 className="chart-title">Test Drives Over Time</h3>
-        <div className="chart-toggle">
+        <div className="chart-controls">
+          <div className="chart-toggle">
+            <button
+              className={`toggle-btn ${aggregation === 'day' ? 'active' : ''}`}
+              onClick={() => setAggregation('day')}
+            >
+              Day
+            </button>
+            <button
+              className={`toggle-btn ${aggregation === 'week' ? 'active' : ''}`}
+              onClick={() => setAggregation('week')}
+            >
+              Week
+            </button>
+            <button
+              className={`toggle-btn ${aggregation === 'month' ? 'active' : ''}`}
+              onClick={() => setAggregation('month')}
+            >
+              Month
+            </button>
+            <button
+              className={`toggle-btn ${aggregation === 'year' ? 'active' : ''}`}
+              onClick={() => setAggregation('year')}
+            >
+              Year
+            </button>
+          </div>
           <button
-            className={`toggle-btn ${aggregation === 'day' ? 'active' : ''}`}
-            onClick={() => setAggregation('day')}
+            className={`live-btn ${showLive ? 'active' : ''}`}
+            onClick={() => setShowLive(!showLive)}
           >
-            Day
-          </button>
-          <button
-            className={`toggle-btn ${aggregation === 'week' ? 'active' : ''}`}
-            onClick={() => setAggregation('week')}
-          >
-            Week
-          </button>
-          <button
-            className={`toggle-btn ${aggregation === 'month' ? 'active' : ''}`}
-            onClick={() => setAggregation('month')}
-          >
-            Month
-          </button>
-          <button
-            className={`toggle-btn ${aggregation === 'year' ? 'active' : ''}`}
-            onClick={() => setAggregation('year')}
-          >
-            Year
+            <span className="live-dot"></span>
+            Live
           </button>
         </div>
       </div>
 
-      <div className="chart-area" />
+      <div className="chart-content">
+        <div className="historical-chart">
+          <div className="chart-area" />
+        </div>
+        {showLive && (
+          <div className="live-chart">
+            <LiveTestDrives headless />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

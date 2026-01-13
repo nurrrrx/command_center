@@ -18,16 +18,16 @@ interface DemographicsAgeProps {
 }
 
 const AGE_COLORS: Record<string, string> = {
-  '18-25': '#34a853',
-  '26-35': '#fbbc04',
-  '36-45': '#9c27b0',
-  '46-55': '#ff9800',
-  '55+': '#00bcd4'
+  '18-25': '#025645',   // BCG Green
+  '26-35': '#337B68',   // BCG Green lighter
+  '36-45': '#E6B437',   // Gold
+  '46-55': '#BF0404',   // Bain Red
+  '55+': '#051C2A'      // Navy
 };
 
 const GENDER_COLORS = {
-  male: '#4285f4',
-  female: '#ea4335'
+  male: '#025645',      // BCG Green
+  female: '#E6B437'     // Gold
 };
 
 export function DemographicsAge({

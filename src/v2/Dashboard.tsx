@@ -617,7 +617,7 @@ export function V2Dashboard() {
               <TestDriveCompletion />
             </div>
             <div className="placeholder-card">
-              <TestDrivesOverTime />
+              <TestDrivesOverTime filters={filters} />
             </div>
             <div className="placeholder-card">
               <OccurrenceHeatmap />
@@ -630,7 +630,7 @@ export function V2Dashboard() {
           // Layout 5: Wide top-left + 2 bottom + tall right (default)
           <div className="tab-content-grid layout5-grid">
             <div className="placeholder-card">
-              <TestDrivesOverTime />
+              <TestDrivesOverTime filters={filters} />
             </div>
             <div className="placeholder-card">
               <OccurrenceRadial />

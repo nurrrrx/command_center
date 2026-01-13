@@ -65,6 +65,56 @@
   transition: opacity 0.15s ease, stroke-width 0.15s ease;
 }
 
+/* Gender Legend */
+.demographics-gender .gender-legend {
+  display: flex;
+  gap: 16px;
+  margin-bottom: var(--spacing-sm);
+  flex-shrink: 0;
+}
+
+.demographics-gender .gender-legend .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.15s ease;
+  font-family: var(--font-family);
+}
+
+.demographics-gender .gender-legend .legend-item:hover {
+  background: var(--color-off-white);
+}
+
+.demographics-gender .gender-legend .legend-item.selected {
+  background: var(--color-off-white);
+}
+
+.demographics-gender .gender-legend .legend-item.dimmed {
+  opacity: 0.4;
+}
+
+.demographics-gender .gender-legend .legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.demographics-gender .gender-legend .legend-label {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.demographics-gender .gender-legend .legend-item.selected .legend-label {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
 /* Headless mode */
 .demographics-gender.headless {
   padding: var(--spacing-md);

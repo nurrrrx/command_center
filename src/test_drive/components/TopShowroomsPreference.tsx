@@ -12,20 +12,8 @@ interface TopShowroomsPreferenceProps {
   headless?: boolean;
 }
 
-// Showroom colors
-const SHOWROOM_COLORS: Record<string, string> = {
-  'DFC': '#4285f4',
-  'Sheikh Zayed Road': '#34a853',
-  'DIP': '#03a9f4',
-  'Abu Dhabi': '#fbbc04',
-  'Sharjah': '#ea4335',
-  'Khorfakkan': '#e91e63',
-  'Ras Al Khaimah': '#00bcd4',
-  'Ajman': '#3f51b5',
-  'Fujairah': '#ff5722',
-  'Umm Al Quwain': '#795548',
-  'Al Ain': '#9334e6'
-};
+// Single consistent color for all bars
+const BAR_COLOR = '#163E93';
 
 // Showroom icons (location markers)
 const SHOWROOM_ICON = '📍';
@@ -99,7 +87,7 @@ export function TopShowroomsPreference({ data, headless = false }: TopShowroomsP
       .attr('y', d => yScale(d.showroom) || 0)
       .attr('width', d => xScale(d.count))
       .attr('height', yScale.bandwidth())
-      .attr('fill', d => SHOWROOM_COLORS[d.showroom] || '#4285f4')
+      .attr('fill', BAR_COLOR)
       .attr('rx', 3);
 
     // Value labels at end of bars

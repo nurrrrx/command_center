@@ -113,7 +113,8 @@ export function ChannelConversion({ headless = false, selectedSource, onSourceSe
       .attr('y', d => (yScale(d.source) || 0) + yScale.bandwidth() / 2)
       .attr('x', d => xScale(d.conversion) + 8)
       .attr('dy', '0.35em')
-      .style('font-size', '12px')
+      .style('font-size', '11px')
+      .style('font-weight', '600')
       .style('fill', '#333')
       .style('pointer-events', 'none')
       .text(d => `${d.conversion.toFixed(1)}%`);
@@ -145,7 +146,7 @@ export function ChannelConversion({ headless = false, selectedSource, onSourceSe
       .call(d3.axisLeft(yScale).tickSize(0).tickPadding(10))
       .call(g => g.select('.domain').remove())
       .selectAll('text')
-      .style('font-size', '12px');
+      .style('font-size', '11px');
 
     // X-axis
     g.append('g')

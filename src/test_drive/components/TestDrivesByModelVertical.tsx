@@ -23,9 +23,9 @@ interface TestDrivesByModelVerticalProps {
 }
 
 const TYPE_COLORS: Record<string, string> = {
-  SUV: '#4285f4',
-  Sedan: '#34a853',
-  Performance: '#ea4335'
+  SUV: '#051C2A',
+  Sedan: '#163E93',
+  Performance: '#30A3DA'
 };
 
 // Map model names to image filenames
@@ -49,12 +49,12 @@ const MODEL_IMAGES: Record<string, string> = {
   'LC500 Convertible': '/models/lc500convertible.avif',
 };
 
-// Funnel stage colors - using dark blue shades
+// Funnel stage colors - using McKinsey palette
 const FUNNEL_COLORS = {
-  leads: '#1e3a5f',
-  qualified: '#2c5282',
-  booked: '#3182ce',
-  performed: '#4299e1'
+  leads: '#051C2A',
+  qualified: '#163E93',
+  booked: '#30A3DA',
+  performed: '#337B68'
 };
 
 // Funnel stage display names

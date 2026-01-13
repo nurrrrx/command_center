@@ -24,7 +24,7 @@ export function TestDrivesNeeded({ filters: _filters, headless = false }: TestDr
     const width = 500;
     const height = 200;
 
-    const colors = ['#34a853', '#fbbc04', '#ea4335'];
+    const colors = ['#025645', '#E6B437', '#BF0404'];
 
     // Prepare data for treemap
     const hierarchyData = {

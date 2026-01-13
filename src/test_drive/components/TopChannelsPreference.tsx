@@ -12,18 +12,8 @@ interface TopChannelsPreferenceProps {
   headless?: boolean;
 }
 
-// Channel colors
-const CHANNEL_COLORS: Record<string, string> = {
-  'Instagram': '#E4405F',
-  'Facebook': '#1877F2',
-  'TikTok': '#000000',
-  'Website Organic': '#34a853',
-  'Website Paid': '#4285f4',
-  'Google Search': '#FBBC04',
-  'Call Center': '#9334e6',
-  'CRM': '#00bcd4',
-  'WhatsApp': '#25D366'
-};
+// Single consistent color for all bars
+const BAR_COLOR = '#163E93';
 
 // Channel icons (using simple text representations for now)
 const CHANNEL_ICONS: Record<string, string> = {
@@ -107,7 +97,7 @@ export function TopChannelsPreference({ data, headless = false }: TopChannelsPre
       .attr('y', d => yScale(d.channel) || 0)
       .attr('width', d => xScale(d.count))
       .attr('height', yScale.bandwidth())
-      .attr('fill', d => CHANNEL_COLORS[d.channel] || '#4285f4')
+      .attr('fill', BAR_COLOR)
       .attr('rx', 3);
 
     // Value labels at end of bars

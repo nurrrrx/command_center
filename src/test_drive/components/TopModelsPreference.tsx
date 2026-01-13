@@ -34,11 +34,8 @@ const MODEL_IMAGES: Record<string, string> = {
   'LC500 Convertible': '/models/lc500convertible.avif',
 };
 
-const TYPE_COLORS: Record<string, string> = {
-  SUV: '#4285f4',
-  Sedan: '#34a853',
-  Performance: '#ea4335'
-};
+// Single consistent color for all bars
+const BAR_COLOR = '#163E93';
 
 export function TopModelsPreference({ data, headless = false }: TopModelsPreferenceProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -109,7 +106,7 @@ export function TopModelsPreference({ data, headless = false }: TopModelsPrefere
       .attr('y', d => yScale(d.model) || 0)
       .attr('width', d => xScale(d.count))
       .attr('height', yScale.bandwidth())
-      .attr('fill', d => TYPE_COLORS[d.type] || '#4285f4')
+      .attr('fill', BAR_COLOR)
       .attr('rx', 3);
 
     // Value labels at end of bars

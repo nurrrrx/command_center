@@ -29,7 +29,7 @@ export function TestDrivesNeededBar({ filters: _filters, headless = false }: Tes
     const innerWidth = width;
     const innerHeight = height;
 
-    const colors = ['#34a853', '#fbbc04', '#ea4335'];
+    const colors = ['#025645', '#E6B437', '#BF0404'];
 
     // Calculate cumulative positions for stacked bar
     let cumulative = 0;
@@ -114,7 +114,7 @@ export function TestDrivesNeededBar({ filters: _filters, headless = false }: Tes
           <div key={d.category} className="legend-item">
             <span
               className="legend-swatch"
-              style={{ backgroundColor: ['#34a853', '#fbbc04', '#ea4335'][i] }}
+              style={{ backgroundColor: ['#025645', '#E6B437', '#BF0404'][i] }}
             />
             <span className="legend-label">{d.category}</span>
             <span className="legend-value">({d.count.toLocaleString()} orders)</span>

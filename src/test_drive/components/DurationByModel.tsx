@@ -25,11 +25,11 @@ const MODEL_IMAGES: Record<string, string> = {
   'LC500 Convertible': '/models/lc500convertible.avif',
 };
 
-// Category colors
+// Category colors - Priority palette
 const CATEGORY_COLORS: Record<string, string> = {
-  'SUV': '#4285f4',
-  'Sedan': '#34a853',
-  'Performance': '#ea4335',
+  'SUV': '#051C2A',
+  'Sedan': '#163E93',
+  'Performance': '#30A3DA',
 };
 
 const CATEGORIES = ['SUV', 'Sedan', 'Performance'] as const;

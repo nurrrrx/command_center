@@ -56,6 +56,38 @@
   cursor: pointer;
   min-width: 130px;
   transition: border-color 0.15s ease;
+  /* Override browser default date input styling */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Style the date input text to match selects */
+.filter-date-input::-webkit-datetime-edit {
+  color: var(--color-text-primary);
+}
+
+.filter-date-input::-webkit-datetime-edit-fields-wrapper {
+  color: var(--color-text-primary);
+}
+
+.filter-date-input::-webkit-datetime-edit-text {
+  color: var(--color-text-secondary);
+}
+
+.filter-date-input::-webkit-datetime-edit-month-field,
+.filter-date-input::-webkit-datetime-edit-day-field,
+.filter-date-input::-webkit-datetime-edit-year-field {
+  color: var(--color-text-primary);
+}
+
+.filter-date-input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.filter-date-input::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
 }
 
 .filter-date-input:hover {

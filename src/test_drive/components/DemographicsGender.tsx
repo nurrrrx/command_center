@@ -15,8 +15,8 @@ interface DemographicsGenderProps {
 }
 
 const GENDER_COLORS = {
-  male: '#4285f4',
-  female: '#ea4335'
+  male: '#025645',    // BCG Green
+  female: '#E6B437'   // Gold/Amber
 };
 
 export function DemographicsGender({
@@ -162,6 +162,22 @@ export function DemographicsGender({
             Clear Filter
           </button>
         )}
+      </div>
+      <div className="gender-legend">
+        <button
+          className={`legend-item ${selectedGender === 'male' ? 'selected' : ''} ${selectedGender === 'female' ? 'dimmed' : ''}`}
+          onClick={() => onGenderSelect(selectedGender === 'male' ? null : 'male')}
+        >
+          <span className="legend-dot" style={{ backgroundColor: GENDER_COLORS.male }} />
+          <span className="legend-label">Male</span>
+        </button>
+        <button
+          className={`legend-item ${selectedGender === 'female' ? 'selected' : ''} ${selectedGender === 'male' ? 'dimmed' : ''}`}
+          onClick={() => onGenderSelect(selectedGender === 'female' ? null : 'female')}
+        >
+          <span className="legend-dot" style={{ backgroundColor: GENDER_COLORS.female }} />
+          <span className="legend-label">Female</span>
+        </button>
       </div>
       <div className="chart-area" />
     </div>

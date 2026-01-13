@@ -2,7 +2,7 @@
 
 .live-test-drives {
   position: relative;
-  padding: var(--spacing-lg);
+  padding: var(--spacing-sm);
   background: var(--color-white);
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
@@ -11,55 +11,7 @@
   flex-direction: column;
   box-sizing: border-box;
   font-family: var(--font-family);
-}
-
-.live-test-drives .chart-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-shrink: 0;
-  margin-bottom: var(--spacing-sm);
-}
-
-.live-test-drives .chart-title {
-  font-family: var(--font-family);
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-navy-dark);
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-}
-
-.live-test-drives .live-indicator {
-  width: 8px;
-  height: 8px;
-  background-color: var(--color-teal-dark);
-  border-radius: 50%;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(2, 86, 69, 0.7);
-  }
-  70% {
-    box-shadow: 0 0 0 6px rgba(2, 86, 69, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(2, 86, 69, 0);
-  }
-}
-
-.live-test-drives .live-count {
-  font-family: var(--font-family);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-teal-dark);
-  background: rgba(2, 86, 69, 0.1);
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: 12px;
+  overflow: hidden;
 }
 
 .live-test-drives .map-container {
@@ -77,21 +29,23 @@
 .live-test-drives .car-legend {
   display: flex;
   justify-content: center;
-  gap: var(--spacing-md);
-  padding: var(--spacing-md) 0 var(--spacing-xs);
-  flex-wrap: wrap;
+  gap: 4px;
+  padding: 6px 0 2px;
+  flex-wrap: nowrap;
   flex-shrink: 0;
+  overflow-x: auto;
 }
 
 .live-test-drives .legend-item {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: 4px;
   cursor: pointer;
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: 6px;
+  padding: 2px 6px;
+  border-radius: 4px;
   transition: all 0.2s ease;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
+  flex-shrink: 0;
 }
 
 .live-test-drives .legend-item:hover {
@@ -108,30 +62,30 @@
 }
 
 .live-test-drives .car-image {
-  width: 60px;
-  height: 32px;
+  width: 40px;
+  height: 22px;
   object-fit: contain;
 }
 
 .live-test-drives .car-count {
   font-family: var(--font-family);
-  font-size: var(--font-size-sm);
+  font-size: 10px;
   font-weight: var(--font-weight-semibold);
   color: var(--color-white);
-  min-width: 22px;
-  height: 22px;
+  min-width: 16px;
+  height: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 11px;
-  padding: 0 6px;
+  border-radius: 8px;
+  padding: 0 4px;
 }
 
 .live-test-drives .car-name {
   font-family: var(--font-family);
-  font-size: var(--font-size-sm);
+  font-size: 10px;
   color: var(--color-text-primary);
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-medium);
 }
 
 /* Car markers on map */

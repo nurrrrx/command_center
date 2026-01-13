@@ -415,17 +415,17 @@ export const LEAD_SOURCES = [
   'Google Search', 'Call Center', 'CRM', 'WhatsApp'
 ];
 
-// Lead source colors - McKinsey/BCG palette
+// Lead source colors - Priority palette
 export const LEAD_SOURCE_COLORS: Record<string, string> = {
-  'Instagram': '#BF0404',      // Bain red
-  'Facebook': '#163E93',       // McKinsey blue
-  'TikTok': '#051C2A',         // McKinsey navy dark
-  'Website Organic': '#025645', // BCG green
-  'Website Paid': '#30A3DA',   // McKinsey light blue
-  'Google Search': '#E6B437',  // BCG gold
-  'Call Center': '#337B68',    // BCG teal
-  'CRM': '#060200',            // McKinsey black
-  'WhatsApp': '#025645'        // BCG green
+  'Instagram': '#051C2A',      // 1st priority
+  'Facebook': '#163E93',       // 2nd priority
+  'TikTok': '#30A3DA',         // 3rd priority
+  'Website Organic': '#060200', // 4th priority
+  'Website Paid': '#025645',   // 5th priority
+  'Google Search': '#337B68',  // 6th priority
+  'Call Center': '#E6B437',    // 7th priority
+  'CRM': '#BF0404',            // 8th priority
+  'WhatsApp': '#979797'        // 9th priority
 };
 
 // Funnel data by source with full journey metrics
@@ -643,3 +643,241 @@ export const showroomPreferencesData = [
   { showroom: 'Fujairah', count: 198 },
   { showroom: 'Umm Al Quwain', count: 156 }
 ];
+
+// =============================================================================
+// BASE TEST DRIVE RECORDS DATASET
+// This is the granular dataset that can be filtered and aggregated for all charts
+// =============================================================================
+
+export interface TestDriveRecord {
+  id: string;
+  date: string;                      // YYYY-MM-DD
+  model: string;                     // e.g., "RX350"
+  modelType: 'SUV' | 'Sedan' | 'Performance';
+  showroom: string;                  // e.g., "DFC"
+  channel: string;                   // e.g., "Instagram"
+  duration: number;                  // minutes
+  completed: boolean;
+  convertedToSale: boolean;
+  customerAge: number;
+  customerGender: 'Male' | 'Female';
+  timeToTestDrive: number;           // days from lead to test drive
+  salesConsultant: string;
+  funnelStage: 'request' | 'qualified' | 'booked' | 'completed' | 'order' | 'invoice';
+  occurrence: 'first_show' | 'rescheduled' | 'cancelled' | 'no_show';
+}
+
+// Showroom short names for the records
+const _SHOWROOM_SHORT_NAMES = UAE_SHOWROOMS_DATA.map(s => s.shortName);
+
+// Sales consultants per showroom
+const SALES_CONSULTANTS: Record<string, string[]> = {
+  'DFC': ['Ahmad Rashid', 'Nadia Al Hashemi', 'Hassan Omar'],
+  'Sheikh Zayed Road': ['Salim Al Kaabi', 'Reem Al Mazrouei', 'Faisal Mahmoud'],
+  'DIP': ['Tariq Al Mulla', 'Noora Al Shamsi'],
+  'Abu Dhabi': ['Maryam Al Dhaheri', 'Khalid Al Remeithi', 'Aisha Saeed'],
+  'Sharjah': ['Younis Al Hosani', 'Latifa Al Qassimi'],
+  'Khorfakkan': ['Saif Al Ketbi'],
+  'Ras Al Khaimah': ['Rashid Al Sharhan', 'Amna Al Tunaiji'],
+  'Ajman': ['Mohammed Al Suwaidi', 'Fatima Al Zaabi'],
+  'Fujairah': ['Omar Al Nuaimi'],
+  'Umm Al Quwain': ['Sara Al Hammadi'],
+  'Al Ain': ['Ibrahim Al Nuaimi', 'Huda Al Darmaki']
+};
+
+// Model weights (popularity distribution)
+const MODEL_WEIGHTS: Record<string, number> = {
+  'RX350': 15, 'LX600': 13, 'NX350': 11, 'RX500h': 8, 'NX350h': 6,
+  'UX300h': 4, 'LX700h': 4, 'RX350h': 3,
+  'ES350': 9, 'IS300': 5, 'ES300h': 3, 'LS500h': 2, 'LS350': 2,
+  'LC500': 1.5, 'RC350': 1.3, 'RC F': 1, 'LC500 Convertible': 0.7
+};
+
+// Showroom weights (volume distribution)
+const SHOWROOM_WEIGHTS: Record<string, number> = {
+  'DFC': 20, 'Sheikh Zayed Road': 17, 'Abu Dhabi': 15, 'DIP': 13,
+  'Sharjah': 9, 'Al Ain': 5, 'Ajman': 4, 'Ras Al Khaimah': 3,
+  'Khorfakkan': 2.5, 'Fujairah': 2, 'Umm Al Quwain': 1.5
+};
+
+// Channel weights
+const CHANNEL_WEIGHTS: Record<string, number> = {
+  'Website Organic': 20, 'Website Paid': 17, 'Instagram': 15,
+  'Facebook': 12, 'Google Search': 10, 'CRM': 9,
+  'TikTok': 7, 'Call Center': 6, 'WhatsApp': 5
+};
+
+// Age group weights
+const AGE_WEIGHTS = [
+  { min: 18, max: 25, weight: 7 },
+  { min: 26, max: 35, weight: 35 },
+  { min: 36, max: 45, weight: 32 },
+  { min: 46, max: 55, weight: 18 },
+  { min: 56, max: 70, weight: 8 }
+];
+
+// Weighted random selection
+function weightedRandom<T extends string>(weights: Record<T, number>): T {
+  const entries = Object.entries(weights) as [T, number][];
+  const total = entries.reduce((sum, [, w]) => sum + w, 0);
+  let random = Math.random() * total;
+  for (const [key, weight] of entries) {
+    random -= weight;
+    if (random <= 0) return key;
+  }
+  return entries[entries.length - 1][0];
+}
+
+// Get model type
+function getModelType(model: string): 'SUV' | 'Sedan' | 'Performance' {
+  if (LEXUS_MODEL_TYPES.SUV.includes(model as any)) return 'SUV';
+  if (LEXUS_MODEL_TYPES.Sedan.includes(model as any)) return 'Sedan';
+  return 'Performance';
+}
+
+// Generate random age based on weights
+function generateAge(): number {
+  const total = AGE_WEIGHTS.reduce((sum, g) => sum + g.weight, 0);
+  let random = Math.random() * total;
+  for (const group of AGE_WEIGHTS) {
+    random -= group.weight;
+    if (random <= 0) {
+      return group.min + Math.floor(Math.random() * (group.max - group.min + 1));
+    }
+  }
+  return 35; // Default
+}
+
+// Generate occurrence based on completion status
+function generateOccurrence(completed: boolean): TestDriveRecord['occurrence'] {
+  if (completed) {
+    return Math.random() < 0.8 ? 'first_show' : 'rescheduled';
+  } else {
+    return Math.random() < 0.6 ? 'cancelled' : 'no_show';
+  }
+}
+
+// Generate funnel stage
+function generateFunnelStage(completed: boolean, converted: boolean): TestDriveRecord['funnelStage'] {
+  if (converted) {
+    return Math.random() < 0.83 ? 'invoice' : 'order';
+  }
+  if (completed) {
+    return 'completed';
+  }
+  const stages: TestDriveRecord['funnelStage'][] = ['request', 'qualified', 'booked'];
+  return stages[Math.floor(Math.random() * stages.length)];
+}
+
+// Generate test drive duration based on model
+function generateDuration(model: string): number {
+  const durationData = durationByModelData.find(d => d.model === model);
+  if (durationData) {
+    const { minDuration, maxDuration, avgDuration } = durationData;
+    // Normal-ish distribution around average
+    const spread = (maxDuration - minDuration) / 4;
+    const deviation = (Math.random() - 0.5) * 2 * spread;
+    return Math.round(Math.max(minDuration, Math.min(maxDuration, avgDuration + deviation)));
+  }
+  return 30; // Default 30 minutes
+}
+
+// Generate time to test drive based on showroom
+function generateTimeToTestDrive(showroom: string): number {
+  const ttdData = timeToTestDriveData.find(d => d.showroom === showroom);
+  if (ttdData) {
+    const { minDays, maxDays, avgDays } = ttdData;
+    const spread = (maxDays - minDays) / 4;
+    const deviation = (Math.random() - 0.5) * 2 * spread;
+    return Math.round(Math.max(minDays, Math.min(maxDays, avgDays + deviation)));
+  }
+  return 3; // Default 3 days
+}
+
+// Generate the base dataset
+function generateTestDriveRecords(count: number = 8000): TestDriveRecord[] {
+  const records: TestDriveRecord[] = [];
+  const startDate = new Date();
+  startDate.setFullYear(startDate.getFullYear() - 3);
+  const endDate = new Date();
+  const dateRange = endDate.getTime() - startDate.getTime();
+
+  for (let i = 0; i < count; i++) {
+    // Random date within the 3-year range
+    const recordDate = new Date(startDate.getTime() + Math.random() * dateRange);
+    const dateStr = recordDate.toISOString().split('T')[0];
+
+    // Weighted selections
+    const model = weightedRandom(MODEL_WEIGHTS);
+    const showroom = weightedRandom(SHOWROOM_WEIGHTS);
+    const channel = weightedRandom(CHANNEL_WEIGHTS);
+
+    // Get sales consultant for showroom
+    const consultants = SALES_CONSULTANTS[showroom] || ['Unknown'];
+    const salesConsultant = consultants[Math.floor(Math.random() * consultants.length)];
+
+    // Demographics
+    const customerAge = generateAge();
+    const customerGender: 'Male' | 'Female' = Math.random() < 0.7 ? 'Male' : 'Female';
+
+    // Completion and conversion (correlated)
+    const completed = Math.random() < 0.8;
+    const convertedToSale = completed && Math.random() < 0.25;
+
+    records.push({
+      id: `td-${i.toString().padStart(6, '0')}`,
+      date: dateStr,
+      model,
+      modelType: getModelType(model),
+      showroom,
+      channel,
+      duration: completed ? generateDuration(model) : 0,
+      completed,
+      convertedToSale,
+      customerAge,
+      customerGender,
+      timeToTestDrive: generateTimeToTestDrive(showroom),
+      salesConsultant,
+      funnelStage: generateFunnelStage(completed, convertedToSale),
+      occurrence: generateOccurrence(completed)
+    });
+  }
+
+  // Sort by date
+  return records.sort((a, b) => a.date.localeCompare(b.date));
+}
+
+// Export the generated records
+export const testDriveRecords = generateTestDriveRecords(8000);
+
+// =============================================================================
+// FILTER TYPES
+// =============================================================================
+
+export interface GlobalFilters {
+  startDate: string | null;
+  endDate: string | null;
+  model: string | null;
+  showroom: string | null;
+  channel: string | null;
+}
+
+// Helper function to filter records
+export function filterRecords(records: TestDriveRecord[], filters: GlobalFilters): TestDriveRecord[] {
+  return records.filter(record => {
+    // Date range filter
+    if (filters.startDate && record.date < filters.startDate) return false;
+    if (filters.endDate && record.date > filters.endDate) return false;
+
+    // Model filter
+    if (filters.model && record.model !== filters.model) return false;
+
+    // Showroom filter
+    if (filters.showroom && record.showroom !== filters.showroom) return false;
+
+    // Channel filter
+    if (filters.channel && record.channel !== filters.channel) return false;
+
+    return true;
+  });
+}
