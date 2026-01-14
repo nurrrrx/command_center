@@ -52,13 +52,13 @@ type LayoutTemplateId = typeof LAYOUT_TEMPLATES[number]['id']
 
 // Base tabs (non-removable)
 const BASE_TABS = [
+  { id: 'testdriveprocess', label: 'Overview', shortLabel: 'Overview', isCustom: false },
   { id: 'executive', label: 'Executive Summary', shortLabel: 'KPIs', isCustom: false },
   { id: 'v2funnel', label: 'Sales Funnel', shortLabel: 'Funnel', isCustom: false },
   { id: 'v2opsperformance', label: 'Operational Performance', shortLabel: 'OpsPerf', isCustom: false },
   { id: 'carmodel', label: 'Car Model Performance', shortLabel: 'Models', isCustom: false },
   { id: 'leaderboards', label: 'Leaderboards', shortLabel: 'Leaders', isCustom: false },
   { id: 'v2demographics', label: 'Customer Insights', shortLabel: 'Insights', isCustom: false },
-  { id: 'testdriveprocess', label: 'Test Drive Process', shortLabel: 'Process', isCustom: false },
 ] as const
 
 interface CustomTab {
@@ -313,7 +313,7 @@ const saveCustomTabs = (tabs: CustomTab[]) => {
 
 export function V2Dashboard() {
   const [filters, setFilters] = useState<GlobalFilters>(defaultFilters)
-  const [activeTab, setActiveTab] = useState<string>('executive')
+  const [activeTab, setActiveTab] = useState<string>('testdriveprocess')
   const [customTabs, setCustomTabs] = useState<CustomTab[]>(loadCustomTabs)
   const [isLayoutDialogOpen, setIsLayoutDialogOpen] = useState(false)
   const [selectedLayout, setSelectedLayout] = useState<LayoutTemplateId | null>(null)
@@ -396,7 +396,7 @@ export function V2Dashboard() {
   const handleRemoveTab = (tabId: string) => {
     setCustomTabs(customTabs.filter(t => t.id !== tabId))
     if (activeTab === tabId) {
-      setActiveTab('executive')
+      setActiveTab('testdriveprocess')
     }
   }
 

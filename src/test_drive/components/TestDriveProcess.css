@@ -12,6 +12,7 @@
   flex-direction: column;
   box-sizing: border-box;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  overflow: hidden;
 }
 
 .test-drive-process.headless {
@@ -20,22 +21,15 @@
   box-shadow: none;
 }
 
-.test-drive-process .chart-header {
-  flex-shrink: 0;
-  margin-bottom: 12px;
+/* Main content takes full height */
+.test-drive-process .process-main-content {
+  flex: 1;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  min-height: 0;
 }
 
-.test-drive-process .chart-title {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: #051C2A;
-  margin: 0;
-}
-
+/* Chart container takes most of the space */
 .test-drive-process .chart-container {
   flex: 1;
   min-height: 0;
@@ -50,6 +44,7 @@
 .test-drive-process .chart-container svg {
   max-width: 100%;
   height: auto;
+  max-height: 100%;
 }
 
 .test-drive-process .loading-placeholder {
@@ -57,7 +52,12 @@
   font-size: 14px;
 }
 
-/* Mermaid overrides for better styling */
+/* Mermaid node transitions */
+.test-drive-process .node {
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+/* Mermaid overrides */
 .test-drive-process .node rect,
 .test-drive-process .node polygon {
   rx: 4px;
@@ -72,12 +72,264 @@
   background-color: transparent;
 }
 
-/* Make nodes slightly larger */
-.test-drive-process .node {
-  font-size: 11px;
-}
-
-/* Arrow marker styling */
 .test-drive-process marker path {
   fill: #333;
+}
+
+/* Timeline */
+.test-drive-process .process-timeline {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  margin-top: 12px;
+  background: #f8fafc;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
+.test-drive-process .timeline-item {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.test-drive-process .timeline-stage {
+  padding: 5px 10px;
+  background: #3B5998;
+  color: white;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.test-drive-process .timeline-connector {
+  display: flex;
+  align-items: center;
+  margin: 0 6px;
+}
+
+.test-drive-process .timeline-line {
+  width: 24px;
+  height: 2px;
+  background: #cbd5e1;
+}
+
+.test-drive-process .timeline-duration {
+  font-size: 10px;
+  color: #64748b;
+  margin-left: 6px;
+  white-space: nowrap;
+}
+
+/* Inspect Leads Button */
+.test-drive-process .inspect-leads-btn {
+  flex-shrink: 0;
+  margin-top: 12px;
+  padding: 10px 20px;
+  background: #3B5998;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  align-self: flex-start;
+}
+
+.test-drive-process .inspect-leads-btn:hover {
+  background: #2D4373;
+}
+
+/* Bottom Drawer Overlay */
+.test-drive-process .leads-drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* Bottom Drawer */
+.test-drive-process .leads-drawer {
+  width: 100%;
+  max-height: 70vh;
+  background: white;
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Drawer Header */
+.test-drive-process .drawer-header {
+  flex-shrink: 0;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.test-drive-process .drawer-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #051C2A;
+  margin: 0;
+}
+
+.test-drive-process .drawer-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.test-drive-process .drawer-search {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 13px;
+  width: 280px;
+  outline: none;
+}
+
+.test-drive-process .drawer-search:focus {
+  border-color: #3B5998;
+}
+
+.test-drive-process .drawer-stage-filter {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 13px;
+  background: white;
+  cursor: pointer;
+  min-width: 150px;
+}
+
+.test-drive-process .drawer-close-btn {
+  padding: 8px 16px;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.test-drive-process .drawer-close-btn:hover {
+  background: #e5e7eb;
+}
+
+/* Drawer Table */
+.test-drive-process .drawer-table-wrapper {
+  flex: 1;
+  overflow: auto;
+  min-height: 0;
+}
+
+.test-drive-process .drawer-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.test-drive-process .drawer-table thead {
+  background: #f9fafb;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.test-drive-process .drawer-table th {
+  padding: 12px 10px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.test-drive-process .drawer-table th.duration-header {
+  text-align: center;
+  background: #f0f4ff;
+}
+
+.test-drive-process .drawer-table td {
+  padding: 10px;
+  border-bottom: 1px solid #f3f4f6;
+  color: #4b5563;
+}
+
+.test-drive-process .drawer-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.test-drive-process .drawer-table .lead-id {
+  font-family: monospace;
+  font-weight: 500;
+  color: #3B5998;
+}
+
+.test-drive-process .drawer-table .lead-name {
+  font-weight: 500;
+  color: #111827;
+  white-space: nowrap;
+}
+
+.test-drive-process .drawer-table .lead-phone {
+  font-family: monospace;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.test-drive-process .drawer-table .stage-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 500;
+  color: white;
+  white-space: nowrap;
+}
+
+/* Duration cells with color coding */
+.test-drive-process .drawer-table .duration-cell {
+  text-align: center;
+  font-weight: 600;
+  font-size: 12px;
+  color: #1f2937;
+}
+
+/* Drawer Footer */
+.test-drive-process .drawer-footer {
+  flex-shrink: 0;
+  padding: 12px 20px;
+  font-size: 12px;
+  color: #6b7280;
+  background: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+  text-align: right;
 }
