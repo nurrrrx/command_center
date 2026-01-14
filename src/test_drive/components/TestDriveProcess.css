@@ -15,6 +15,28 @@
   overflow: hidden;
 }
 
+/* Investigate Leads Button - Top Right */
+.test-drive-process .investigate-leads-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  padding: 10px 20px;
+  background: #051C2A;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.test-drive-process .investigate-leads-btn:hover {
+  background: #0a2d42;
+}
+
 .test-drive-process.headless {
   padding: 8px;
   background: transparent;
@@ -23,28 +45,32 @@
 
 /* Main content takes full height */
 .test-drive-process .process-main-content {
-  flex: 1;
+  flex: 1 1 0;
   display: flex;
   flex-direction: column;
   min-height: 0;
+  overflow: hidden;
 }
 
-/* Chart container takes most of the space */
+/* Chart container takes most of the space but leaves room for metrics bar */
 .test-drive-process .chart-container {
-  flex: 1;
+  flex: 1 1 0;
   min-height: 0;
+  max-height: calc(100% - 70px);
   position: relative;
   width: 100%;
-  overflow: auto;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 5px 0;
 }
 
 .test-drive-process .chart-container svg {
-  max-width: 100%;
-  height: auto;
+  width: 100% !important;
+  height: 100% !important;
   max-height: 100%;
+  object-fit: contain;
 }
 
 .test-drive-process .loading-placeholder {
@@ -52,9 +78,14 @@
   font-size: 14px;
 }
 
-/* Mermaid node transitions */
+/* Mermaid node transitions and hover */
 .test-drive-process .node {
-  transition: filter 0.2s ease, transform 0.2s ease;
+  transition: filter 0.2s ease;
+  cursor: pointer;
+}
+
+.test-drive-process .node:hover {
+  filter: brightness(1.15);
 }
 
 /* Mermaid overrides */
@@ -62,6 +93,81 @@
 .test-drive-process .node polygon {
   rx: 4px;
   ry: 4px;
+}
+
+/* Ensure node content doesn't get clipped */
+.test-drive-process .node foreignObject {
+  overflow: visible !important;
+}
+
+.test-drive-process .node .nodeLabel {
+  overflow: visible !important;
+  white-space: normal !important;
+  text-align: center !important;
+  padding: 4px 6px !important;
+  min-width: 70px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Node box sizing */
+.test-drive-process .node rect {
+  min-width: 75px;
+  min-height: 50px;
+}
+
+/* Subgraph styling */
+.test-drive-process .cluster rect {
+  fill: #f8fafc !important;
+  stroke: #94a3b8 !important;
+  stroke-width: 2px !important;
+  rx: 8px !important;
+  ry: 8px !important;
+}
+
+.test-drive-process .cluster-label {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  fill: #1e293b !important;
+}
+
+/* Uniform text inside nodes - larger font, centered */
+.test-drive-process .node .nodeLabel {
+  font-size: 15px !important;
+  line-height: 1.3 !important;
+}
+
+.test-drive-process .node .nodeLabel b {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+}
+
+.test-drive-process .node .nodeLabel i {
+  font-size: 14px !important;
+  font-style: normal !important;
+  opacity: 0.9;
+}
+
+/* Ensure cluster label text is fully visible */
+.test-drive-process .cluster-label .nodeLabel {
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: nowrap !important;
+}
+
+/* Add padding inside subgraphs for label visibility */
+.test-drive-process .cluster {
+  padding-top: 25px !important;
+}
+
+.test-drive-process .cluster foreignObject {
+  overflow: visible !important;
+}
+
+.test-drive-process .cluster-label foreignObject {
+  overflow: visible !important;
 }
 
 .test-drive-process .edgePath path {
@@ -76,72 +182,72 @@
   fill: #333;
 }
 
-/* Timeline */
-.test-drive-process .process-timeline {
-  flex-shrink: 0;
+/* Stage Metrics Bar */
+.test-drive-process .stage-metrics-bar {
+  flex: 0 0 auto;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 16px;
-  margin-top: 12px;
+  align-items: stretch;
+  justify-content: center;
+  padding: 12px 20px;
+  margin-top: 8px;
   background: #f8fafc;
-  border-radius: 6px;
+  border-radius: 8px;
+  gap: 0;
   overflow-x: auto;
 }
 
-.test-drive-process .timeline-item {
+.test-drive-process .stage-metric {
   display: flex;
   align-items: center;
-  flex-shrink: 0;
+  gap: 8px;
 }
 
-.test-drive-process .timeline-stage {
-  padding: 5px 10px;
-  background: #3B5998;
-  color: white;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-.test-drive-process .timeline-connector {
-  display: flex;
-  align-items: center;
-  margin: 0 6px;
-}
-
-.test-drive-process .timeline-line {
-  width: 24px;
-  height: 2px;
-  background: #cbd5e1;
-}
-
-.test-drive-process .timeline-duration {
-  font-size: 10px;
-  color: #64748b;
-  margin-left: 6px;
-  white-space: nowrap;
-}
-
-/* Inspect Leads Button */
-.test-drive-process .inspect-leads-btn {
-  flex-shrink: 0;
-  margin-top: 12px;
-  padding: 10px 20px;
-  background: #3B5998;
+.test-drive-process .stage-metric-name {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 14px;
+  background: #051C2A;
   color: white;
   border: none;
   border-radius: 6px;
-  font-size: 13px;
-  font-weight: 500;
+  white-space: nowrap;
   cursor: pointer;
-  transition: background-color 0.2s;
-  align-self: flex-start;
+  transition: background-color 0.2s, transform 0.1s;
 }
 
-.test-drive-process .inspect-leads-btn:hover {
-  background: #2D4373;
+.test-drive-process .stage-metric-name:hover {
+  background: #0a2d42;
+  transform: scale(1.02);
+}
+
+.test-drive-process .stage-metric-name:active {
+  transform: scale(0.98);
+}
+
+.test-drive-process .stage-metric-values {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.test-drive-process .metric-leads {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1e293b;
+  white-space: nowrap;
+}
+
+.test-drive-process .metric-days {
+  font-size: 11px;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.test-drive-process .metric-arrow {
+  font-size: 18px;
+  color: #94a3b8;
+  margin: 0 8px;
 }
 
 /* Bottom Drawer Overlay */

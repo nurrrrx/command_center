@@ -79,7 +79,7 @@ const generateMockLeads = (): Lead[] => {
   }
 
   const leads: Lead[] = [];
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 200; i++) {
     const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
     const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
     const stage = weightedStages[Math.floor(Math.random() * weightedStages.length)];
@@ -148,17 +148,50 @@ const stageToNodeId: Record<ProcessStage, string> = {
   'Invoiced': 'INV'
 };
 
-// Timeline stages (main flow path) with average durations in days
-const timelineStages = [
-  { label: 'Lead', avgDays: 0 },
-  { label: 'CEC Called', avgDays: 1.2 },
-  { label: 'Hot Lead', avgDays: 0.8 },
-  { label: 'SM Assigned', avgDays: 1.5 },
-  { label: 'SE Action', avgDays: 2.1 },
-  { label: 'Opportunity', avgDays: 1.8 },
-  { label: 'Test Drive', avgDays: 3.2 },
-  { label: 'Order', avgDays: 2.5 },
-  { label: 'Invoice', avgDays: 4.1 },
+// Reverse mapping: node ID to stage
+const nodeIdToStage: Record<string, ProcessStage> = Object.fromEntries(
+  Object.entries(stageToNodeId).map(([stage, nodeId]) => [nodeId, stage as ProcessStage])
+);
+
+// Additional node types for sources, reasons, and engagement states
+type SourceType = 'Call Center' | 'Instagram' | 'Facebook' | 'Google' | 'Events' | 'CRM' | 'OOH' | 'Website' | 'Walk-in';
+type ReasonType = 'Reason 1' | 'Reason 2' | 'Reason 3';
+type EngagementType = 'Not Re-engaged' | 'Re-engaged';
+
+// Node ID to source mapping
+const nodeIdToSource: Record<string, SourceType> = {
+  'CC': 'Call Center',
+  'IG': 'Instagram',
+  'FB': 'Facebook',
+  'GO': 'Google',
+  'EV': 'Events',
+  'CRM': 'CRM',
+  'OOH': 'OOH',
+  'WEB': 'Website',
+  'WALK': 'Walk-in',
+};
+
+// Node ID to reason mapping
+const nodeIdToReason: Record<string, ReasonType> = {
+  'R1': 'Reason 1',
+  'R2': 'Reason 2',
+  'R3': 'Reason 3',
+};
+
+// Node ID to engagement mapping
+const nodeIdToEngagement: Record<string, EngagementType> = {
+  'NRE': 'Not Re-engaged',
+  'RE': 'Re-engaged',
+};
+
+// Stage metrics for display below subgraphs - with filter stages
+const stageMetrics = [
+  { name: 'Lead', avgDays: 4.2, totalLeads: 11387, filterStages: ['Lead Created', 'CEC Not Called', 'CEC Called'] as ProcessStage[] },
+  { name: 'Qualification', avgDays: 3.8, totalLeads: 9564, filterStages: ['Cold Lost', 'Hot Lead', 'SM Not Assigned', 'SM Assigned'] as ProcessStage[] },
+  { name: 'Booking', avgDays: 5.1, totalLeads: 6796, filterStages: ['SE Closed', 'No Action', 'SE Action', 'Not Interested', 'Opportunity'] as ProcessStage[] },
+  { name: 'Test Drive', avgDays: 6.3, totalLeads: 3305, filterStages: ['No Test Drive', 'Test Drive'] as ProcessStage[] },
+  { name: 'Ordering', avgDays: 2.9, totalLeads: 1504, filterStages: ['Order Cancelled', 'No Order', 'Order'] as ProcessStage[] },
+  { name: 'Invoicing', avgDays: 1.5, totalLeads: 1317, filterStages: ['No Invoice', 'Invoiced'] as ProcessStage[] },
 ];
 
 // Mock data for the process - aggregated values
@@ -198,7 +231,7 @@ export const processMetrics = {
   invoices: 1317,
 };
 
-// Initialize mermaid with custom theme - increased padding for taller boxes
+// Initialize mermaid with custom theme - minimal padding, larger font
 mermaid.initialize({
   startOnLoad: false,
   theme: 'base',
@@ -210,81 +243,92 @@ mermaid.initialize({
     secondaryColor: '#E5A853',
     tertiaryColor: '#FFFFFF',
     fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-    fontSize: '11px',
+    fontSize: '16px',
+    clusterBkg: '#f8fafc',
+    clusterBorder: '#94a3b8',
   },
   flowchart: {
     htmlLabels: true,
     curve: 'basis',
-    nodeSpacing: 20,
-    rankSpacing: 50,
-    padding: 15,
+    nodeSpacing: 25,
+    rankSpacing: 55,
+    padding: 8,
     defaultRenderer: 'dagre',
+    subGraphTitleMargin: {
+      top: 30,
+      bottom: 15,
+    },
   },
 });
 
-// Mermaid flowchart definition - horizontal with mock data values
+// Mermaid flowchart definition - horizontal with subgraphs for stages
+// Percentages calculated from previous node in the flow
 const chartDefinition = `
 flowchart LR
-    %% Lead Sources - Column 1
-    CC["<b>Call center</b><br/><b>inbound</b><br/><span style='font-size:14px'>1,245</span>"]
-    IG["<b>Instagram</b><br/><span style='font-size:14px'>2,134</span>"]
-    FB["<b>Facebook</b><br/><span style='font-size:14px'>1,876</span>"]
-    GO["<b>Google</b><br/><span style='font-size:14px'>2,567</span>"]
-    EV["<b>Events</b><br/><span style='font-size:14px'>456</span>"]
-    CRM["<b>CRM</b><br/><span style='font-size:14px'>1,123</span>"]
-    OOH["<b>OOH</b><br/><span style='font-size:14px'>345</span>"]
+    %% LEAD SUBGRAPH - Sources to CEC Called
+    subgraph LEAD_STAGE [" Lead "]
+        direction LR
+        CC["<b>Call center</b><br/><b>inbound</b><br/>1,245<br/><i>10.9%</i>"]
+        IG["<b>Instagram</b><br/>2,134<br/><i>18.7%</i>"]
+        FB["<b>Facebook</b><br/>1,876<br/><i>16.5%</i>"]
+        GO["<b>Google</b><br/>2,567<br/><i>22.5%</i>"]
+        EV["<b>Events</b><br/>456<br/><i>4.0%</i>"]
+        CRM["<b>CRM</b><br/>1,123<br/><i>9.9%</i>"]
+        OOH["<b>OOH</b><br/>345<br/><i>3.0%</i>"]
+        WEB["<b>Website</b><br/>987<br/><i>8.7%</i>"]
+        WALK["<b>Walk-in</b><br/>654<br/><i>5.7%</i>"]
+        LEADS["<b>Leads</b><br/><b>11,387</b><br/><i>100%</i>"]
+        CEC_NC["<b>CEC – Not</b><br/><b>called yet</b><br/>1,823<br/><i>16.0%</i>"]:::orange
+        CEC_C["<b>CEC - Called</b><br/><b>9,564</b><br/><i>84.0%</i>"]
+    end
 
-    %% Secondary Sources
-    WEB["<b>Website</b><br/><span style='font-size:14px'>987</span>"]
-    WALK["<b>Walk-in</b><br/><span style='font-size:14px'>654</span>"]
+    %% QUALIFICATION SUBGRAPH - Cold/Hot to SM Assigned
+    subgraph QUAL_STAGE [" Qualification "]
+        direction LR
+        COLD["<b>Cold Lost leads</b><br/>2,876<br/><i>30.1%</i>"]:::orange
+        HOT["<b>Hot leads</b><br/><b>6,688</b><br/><i>69.9%</i>"]
+        R1["<b>Reason 1</b><br/>1,234<br/><i>42.9%</i>"]
+        R2["<b>Reason 2</b><br/>987<br/><i>34.3%</i>"]
+        R3["<b>Reason 3</b><br/>655<br/><i>22.8%</i>"]
+        NRE["<b>Not re-</b><br/><b>engaged</b><br/>1,876<br/><i>65.2%</i>"]:::orange
+        RE["<b>Re-engaged</b><br/>1,000<br/><i>34.8%</i>"]
+        SM_NA["<b>SM not yet</b><br/><b>assigned</b><br/>892<br/><i>11.6%</i>"]:::orange
+        SM_A["<b>Pass to Branch – SM Assigned</b><br/><b>6,796</b><br/><i>88.4%</i>"]
+    end
 
-    %% Main Flow - Leads
-    LEADS["<b>Leads</b><br/><span style='font-size:16px;font-weight:bold'>11,387</span>"]
+    %% BOOKING SUBGRAPH - SE stages to Opportunities
+    subgraph BOOK_STAGE [" Booking "]
+        direction LR
+        SE_CL["<b>SE closed</b><br/>456<br/><i>6.7%</i>"]:::orange
+        NO_ACT["<b>No action</b><br/>678<br/><i>10.0%</i>"]:::orange
+        SE_ACT["<b>SE Action</b><br/><b>5,662</b><br/><i>83.3%</i>"]
+        NOT_INT["<b>Not</b><br/><b>interested</b><br/>1,123<br/><i>19.8%</i>"]:::orange
+        OPP["<b>Opportunities</b><br/><b>4,539</b><br/><i>80.2%</i>"]
+    end
 
-    %% CEC Stage
-    CEC_NC["<b>CEC – Not</b><br/><b>called yet</b><br/><span style='font-size:14px'>1,823</span>"]:::orange
-    CEC_C["<b>CEC - Called</b><br/><span style='font-size:16px;font-weight:bold'>9,564</span>"]
+    %% TEST DRIVE SUBGRAPH
+    subgraph TD_STAGE [" Test Drive "]
+        direction LR
+        NO_TD["<b>No test drive</b><br/>1,234<br/><i>27.2%</i>"]:::orange
+        TD["<b>Test drive</b><br/><b>3,305</b><br/><i>72.8%</i>"]
+    end
 
-    %% Lead Classification
-    COLD["<b>Cold Lost leads</b><br/><span style='font-size:14px'>2,876</span>"]:::orange
-    HOT["<b>Hot leads</b><br/><span style='font-size:16px;font-weight:bold'>6,688</span>"]
+    %% ORDERING SUBGRAPH
+    subgraph ORD_STAGE [" Ordering "]
+        direction LR
+        ORD_CAN["<b>Orders</b><br/><b>cancelled</b><br/>234<br/><i>7.1%</i>"]:::orange
+        NO_ORD["<b>No order</b><br/>1,567<br/><i>47.4%</i>"]:::orange
+        ORD["<b>Orders</b><br/><b>1,504</b><br/><i>45.5%</i>"]
+    end
 
-    %% Reasons
-    R1["<b>Reason 1</b><br/><span style='font-size:12px'>1,234</span>"]
-    R2["<b>Reason 2</b><br/><span style='font-size:12px'>987</span>"]
-    R3["<b>Reason 3</b><br/><span style='font-size:12px'>655</span>"]
+    %% INVOICING SUBGRAPH
+    subgraph INV_STAGE [" Invoicing "]
+        direction LR
+        NO_INV["<b>No</b><br/><b>invoice</b><br/>187<br/><i>12.4%</i>"]:::orange
+        INV["<b>Invoices</b><br/><b>(cash, lease, finance)</b><br/><b>1,317</b><br/><i>87.6%</i>"]
+    end
 
-    %% Re-engagement
-    NRE["<b>Not re-</b><br/><b>engaged</b><br/><span style='font-size:12px'>1,876</span>"]:::orange
-    RE["<b>Re-engaged</b><br/><span style='font-size:12px'>1,000</span>"]
-
-    %% SM Assignment
-    SM_NA["<b>SM not yet</b><br/><b>assigned</b><br/><span style='font-size:12px'>892</span>"]:::orange
-    SM_A["<b>Pass to Branch – SM Assigned</b><br/><span style='font-size:16px;font-weight:bold'>6,796</span>"]
-
-    %% SE Stage
-    SE_CL["<b>SE closed</b><br/><span style='font-size:12px'>456</span>"]:::orange
-    NO_ACT["<b>No action</b><br/><span style='font-size:12px'>678</span>"]:::orange
-    SE_ACT["<b>SE Action</b><br/><span style='font-size:16px;font-weight:bold'>5,662</span>"]
-
-    %% Opportunities
-    NOT_INT["<b>Not</b><br/><b>interested</b><br/><span style='font-size:12px'>1,123</span>"]:::orange
-    OPP["<b>Opportunities</b><br/><span style='font-size:16px;font-weight:bold'>4,539</span>"]
-
-    %% Test Drive
-    NO_TD["<b>No test drive</b><br/><span style='font-size:12px'>1,234</span>"]:::orange
-    TD["<b>Test drive</b><br/><span style='font-size:16px;font-weight:bold'>3,305</span>"]
-
-    %% Orders
-    ORD_CAN["<b>Orders</b><br/><b>cancelled</b><br/><span style='font-size:12px'>234</span>"]:::orange
-    NO_ORD["<b>No order</b><br/><span style='font-size:12px'>1,567</span>"]:::orange
-    ORD["<b>Orders</b><br/><span style='font-size:16px;font-weight:bold'>1,504</span>"]
-
-    %% Final
-    NO_INV["<b>No</b><br/><b>invoice</b><br/><span style='font-size:12px'>187</span>"]:::orange
-    INV["<b>Invoices</b><br/><b>(cash, lease, finance)</b><br/><span style='font-size:16px;font-weight:bold'>1,317</span>"]
-
-    %% Connections - Sources to Leads
+    %% Internal connections - Lead Stage
     CC --> LEADS
     IG --> LEADS
     FB --> LEADS
@@ -294,60 +338,52 @@ flowchart LR
     OOH --> WALK
     WEB --> LEADS
     WALK --> LEADS
-
-    %% Leads split
     LEADS --> CEC_NC
     LEADS --> CEC_C
 
-    %% CEC Called split
+    %% Lead to Qualification connection
     CEC_C --> COLD
     CEC_C --> HOT
 
-    %% Cold Lost to Reasons
+    %% Internal connections - Qualification Stage
     COLD --> R1
     COLD --> R2
     COLD --> R3
-
-    %% Reasons to Re-engagement
     R1 --> NRE
     R1 --> RE
     R2 --> NRE
     R2 --> RE
     R3 --> NRE
     R3 --> RE
-
-    %% Re-engaged joins hot flow
     RE --> SM_A
-
-    %% Hot leads flow
     HOT --> SM_NA
     HOT --> SM_A
 
-    %% SM Assigned flow
+    %% Qualification to Booking connection
     SM_A --> SE_CL
     SM_A --> NO_ACT
     SM_A --> SE_ACT
 
-    %% SE Action flow
+    %% Internal connections - Booking Stage
     SE_ACT --> NOT_INT
     SE_ACT --> OPP
 
-    %% Opportunities flow
+    %% Booking to Test Drive connection
     OPP --> NO_TD
     OPP --> TD
 
-    %% Test Drive flow
+    %% Test Drive to Ordering connection
     TD --> ORD_CAN
     TD --> NO_ORD
     TD --> ORD
 
-    %% Orders flow
+    %% Ordering to Invoicing connection
     ORD --> NO_INV
     ORD --> INV
 
-    %% Styling - increased padding in class definitions
-    classDef default fill:#3B5998,stroke:#2D4373,stroke-width:2px,color:#FFFFFF,padding:12px
-    classDef orange fill:#E5A853,stroke:#C88B32,stroke-width:2px,color:#FFFFFF,padding:12px
+    %% Styling - minimal padding
+    classDef default fill:#3B5998,stroke:#2D4373,stroke-width:2px,color:#FFFFFF,padding:6px
+    classDef orange fill:#E5A853,stroke:#C88B32,stroke-width:2px,color:#FFFFFF,padding:6px
 `;
 
 interface TestDriveProcessProps {
@@ -378,10 +414,56 @@ export function TestDriveProcess({ headless = false }: TestDriveProcessProps) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [stageFilter, setStageFilter] = useState<ProcessStage | 'all'>('all');
+  const [multiStageFilter, setMultiStageFilter] = useState<ProcessStage[] | null>(null);
+  const [sourceFilter, setSourceFilter] = useState<SourceType | null>(null);
+
+  // Close drawer on escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isDrawerOpen) {
+        setIsDrawerOpen(false);
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isDrawerOpen]);
+
+  // Handle clicking on a Mermaid node to open drawer with that stage filtered
+  const handleNodeClick = (stage: ProcessStage) => {
+    setMultiStageFilter(null);
+    setSourceFilter(null);
+    setStageFilter(stage);
+    setIsDrawerOpen(true);
+  };
+
+  // Handle clicking on a source node
+  const handleSourceClick = (source: SourceType) => {
+    setMultiStageFilter(null);
+    setStageFilter('all');
+    setSourceFilter(source);
+    setIsDrawerOpen(true);
+  };
+
+  // Handle clicking on a stage area button (filters by multiple stages)
+  const handleStageAreaClick = (filterStages: ProcessStage[]) => {
+    setStageFilter('all');
+    setMultiStageFilter(filterStages);
+    setSourceFilter(null);
+    setIsDrawerOpen(true);
+  };
 
   // Filter leads for drawer
   const filteredLeads = mockLeads.filter(lead => {
-    if (stageFilter !== 'all' && lead.stage !== stageFilter) return false;
+    // Source filter
+    if (sourceFilter && lead.source !== sourceFilter) {
+      return false;
+    }
+    // Multi-stage filter takes precedence
+    if (multiStageFilter && multiStageFilter.length > 0) {
+      if (!multiStageFilter.includes(lead.stage)) return false;
+    } else if (stageFilter !== 'all' && lead.stage !== stageFilter) {
+      return false;
+    }
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
       return (
@@ -401,28 +483,81 @@ export function TestDriveProcess({ headless = false }: TestDriveProcessProps) {
       if (!containerRef.current) return;
 
       try {
-        // Clear previous content
         containerRef.current.innerHTML = '';
-
-        // Generate unique ID
-        const id = `mermaid-${Date.now()}`;
-
-        // Render mermaid chart
+        const id = `mermaid-main-${Date.now()}`;
         const { svg } = await mermaid.render(id, chartDefinition);
-
-        // Insert the SVG
         containerRef.current.innerHTML = svg;
 
-        // Style adjustments after render
         const svgElement = containerRef.current.querySelector('svg');
         if (svgElement) {
           svgElement.style.width = '100%';
-          svgElement.style.height = 'auto';
-          svgElement.style.maxWidth = '100%';
+          svgElement.style.height = '100%';
           svgElement.style.maxHeight = '100%';
+          svgElement.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+
+          // Add click handlers to all nodes
+          const nodes = svgElement.querySelectorAll('.node');
+          nodes.forEach((node) => {
+            const nodeElement = node as HTMLElement;
+            // Match node IDs like flowchart-CC-123, flowchart-CEC_NC-456, flowchart-R1-789
+            const idMatch = nodeElement.id.match(/flowchart-([A-Za-z0-9_]+)-/);
+            if (idMatch) {
+              const nodeId = idMatch[1];
+              nodeElement.style.cursor = 'pointer';
+
+              // Check if it's a stage node
+              const stage = nodeIdToStage[nodeId];
+              if (stage) {
+                nodeElement.addEventListener('click', () => {
+                  setMultiStageFilter(null);
+                  setSourceFilter(null);
+                  setStageFilter(stage);
+                  setIsDrawerOpen(true);
+                });
+                return;
+              }
+
+              // Check if it's a source node
+              const source = nodeIdToSource[nodeId];
+              if (source) {
+                nodeElement.addEventListener('click', () => {
+                  setMultiStageFilter(null);
+                  setStageFilter('all');
+                  setSourceFilter(source);
+                  setIsDrawerOpen(true);
+                });
+                return;
+              }
+
+              // Check if it's a reason node (filter by Cold Lost stage)
+              const reason = nodeIdToReason[nodeId];
+              if (reason) {
+                nodeElement.addEventListener('click', () => {
+                  setMultiStageFilter(null);
+                  setSourceFilter(null);
+                  setStageFilter('Cold Lost');
+                  setIsDrawerOpen(true);
+                });
+                return;
+              }
+
+              // Check if it's an engagement node
+              const engagement = nodeIdToEngagement[nodeId];
+              if (engagement) {
+                nodeElement.addEventListener('click', () => {
+                  setMultiStageFilter(null);
+                  setSourceFilter(null);
+                  // Re-engaged leads go to SM Assigned, Not Re-engaged stay cold
+                  setStageFilter(engagement === 'Re-engaged' ? 'SM Assigned' : 'Cold Lost');
+                  setIsDrawerOpen(true);
+                });
+                return;
+              }
+            }
+          });
         }
       } catch (error) {
-        console.error('Mermaid rendering error:', error);
+        console.error('Chart rendering error:', error);
       }
     };
 
@@ -434,34 +569,45 @@ export function TestDriveProcess({ headless = false }: TestDriveProcessProps) {
 
   return (
     <div className={`test-drive-process ${headless ? 'headless' : ''}`}>
+      {/* Investigate Leads Button - Top Right */}
+      <button
+        className="investigate-leads-btn"
+        onClick={() => {
+          setStageFilter('all');
+          setMultiStageFilter(null);
+          setSourceFilter(null);
+          setIsDrawerOpen(true);
+        }}
+      >
+        Investigate Leads
+      </button>
+
       {/* Main content area */}
       <div className="process-main-content">
         <div className="chart-container" ref={containerRef}>
           <div className="loading-placeholder">Loading chart...</div>
         </div>
 
-        {/* Timeline showing average durations */}
-        <div className="process-timeline">
-          {timelineStages.map((stage, index) => (
-            <div key={stage.label} className="timeline-item">
-              <div className="timeline-stage">{stage.label}</div>
-              {index < timelineStages.length - 1 && (
-                <div className="timeline-connector">
-                  <div className="timeline-line"></div>
-                  <span className="timeline-duration">{timelineStages[index + 1].avgDays}d avg</span>
-                </div>
+        {/* Stage Metrics Bar */}
+        <div className="stage-metrics-bar">
+          {stageMetrics.map((stage, index) => (
+            <div key={stage.name} className="stage-metric">
+              <button
+                className="stage-metric-name"
+                onClick={() => handleStageAreaClick(stage.filterStages)}
+              >
+                {stage.name}
+              </button>
+              <div className="stage-metric-values">
+                <span className="metric-leads">{stage.totalLeads.toLocaleString()} leads</span>
+                <span className="metric-days">{stage.avgDays} days avg</span>
+              </div>
+              {index < stageMetrics.length - 1 && (
+                <div className="metric-arrow">→</div>
               )}
             </div>
           ))}
         </div>
-
-        {/* Inspect Leads Button */}
-        <button
-          className="inspect-leads-btn"
-          onClick={() => setIsDrawerOpen(true)}
-        >
-          Inspect Leads
-        </button>
       </div>
 
       {/* Bottom Drawer */}
