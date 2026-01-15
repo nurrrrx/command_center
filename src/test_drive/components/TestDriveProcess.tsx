@@ -222,8 +222,7 @@ const stageMetrics = [
   { name: 'Qualification', avgDays: 3.8, totalLeads: 9564, filterStages: ['Cold Lost', 'Hot Lead', 'SM Not Assigned', 'SM Assigned'] as ProcessStage[] },
   { name: 'Booking', avgDays: 5.1, totalLeads: 6796, filterStages: ['SE Closed', 'No Action', 'SE Action', 'Not Interested', 'Opportunity'] as ProcessStage[] },
   { name: 'Test Drive', avgDays: 6.3, totalLeads: 3305, filterStages: ['No Test Drive', 'Test Drive'] as ProcessStage[] },
-  { name: 'Ordering', avgDays: 2.9, totalLeads: 1504, filterStages: ['Order Cancelled', 'No Order', 'Order'] as ProcessStage[] },
-  { name: 'Invoicing', avgDays: 1.5, totalLeads: 1317, filterStages: ['No Invoice', 'Invoiced'] as ProcessStage[] },
+  { name: 'Ordering & Invoicing', avgDays: 2.2, totalLeads: 1504, filterStages: ['Order Cancelled', 'No Order', 'Order', 'No Invoice', 'Invoiced'] as ProcessStage[] },
 ];
 
 // Mock data for the process - aggregated values
@@ -348,17 +347,12 @@ flowchart LR
         TD["<b>Test drive</b><br/><b>3,305</b><br/><i>72.8%</i>"]
     end
 
-    %% ORDERING SUBGRAPH
-    subgraph ORD_STAGE [" Ordering "]
+    %% ORDERING & INVOICING SUBGRAPH - combined for horizontal layout
+    subgraph ORD_INV_STAGE [" Ordering & Invoicing "]
         direction LR
-        ORD_CAN["<b>Orders</b><br/><b>cancelled</b><br/>234<br/><i>7.1%</i>"]:::orange
         NO_ORD["<b>No order</b><br/>1,567<br/><i>47.4%</i>"]:::orange
         ORD["<b>Orders</b><br/><b>1,504</b><br/><i>45.5%</i>"]
-    end
-
-    %% INVOICING SUBGRAPH
-    subgraph INV_STAGE [" Invoicing "]
-        direction LR
+        ORD_CAN["<b>Orders</b><br/><b>cancelled</b><br/>234<br/><i>7.1%</i>"]:::orange
         NO_INV["<b>No</b><br/><b>invoice</b><br/>187<br/><i>12.4%</i>"]:::orange
         INV["<b>Invoices</b><br/><b>(cash, lease, finance)</b><br/><b>1,317</b><br/><i>87.6%</i>"]
     end
@@ -414,11 +408,11 @@ flowchart LR
     OPP --> TD
 
     %% Test Drive to Ordering connection
-    TD --> ORD_CAN
     TD --> NO_ORD
     TD --> ORD
 
     %% Ordering to Invoicing connection
+    ORD --> ORD_CAN
     ORD --> NO_INV
     ORD --> INV
 
