@@ -58,7 +58,12 @@ const stageOrder: ProcessStage[] = [
 const generateMockLeads = (): Lead[] => {
   const firstNames = ['Ahmed', 'Mohammed', 'Fatima', 'Sarah', 'Omar', 'Layla', 'Youssef', 'Nadia', 'Hassan', 'Amira', 'Khalid', 'Mariam', 'Saeed', 'Huda', 'Rashed'];
   const lastNames = ['Al Rashid', 'Hassan', 'Ibrahim', 'Khalil', 'Al Qasim', 'Mahmoud', 'Ahmed', 'Ali', 'Farooq', 'Al Mualla', 'Saeed', 'Al Falasi', 'Rashid', 'Abdullah', 'Al Hashimi'];
-  const sources = ['Call Center', 'Instagram', 'Facebook', 'Google', 'Events', 'CRM', 'Website', 'Walk-in'];
+  // Updated sources to match all chart nodes
+  const sources = [
+    'Call Center', 'Instagram', 'Facebook', 'Twitter', 'TikTok',
+    'Organic/Paid Search', 'Events', 'Web', 'Social', 'Blue',
+    'Live Chat', 'Walking Lead'
+  ];
   const models = ['RX350', 'NX350h', 'ES300h', 'LX600', 'GX460', 'IS300', 'LC500', 'UX250h', 'LS500h', 'RC350'];
   const showrooms = ['DFC', 'Sheikh Zayed', 'Abu Dhabi', 'Sharjah', 'Al Ain', 'DIP', 'RAK', 'Ajman', 'Fujairah'];
 
@@ -78,12 +83,36 @@ const generateMockLeads = (): Lead[] => {
     }
   }
 
+  // Weighted source distribution to match chart data
+  const sourceWeights: Record<string, number> = {
+    'Call Center': 12,
+    'Instagram': 18,
+    'Facebook': 16,
+    'Twitter': 5,
+    'TikTok': 8,
+    'Organic/Paid Search': 16,
+    'Events': 4,
+    'Web': 10,
+    'Social': 8,
+    'Blue': 2,
+    'Live Chat': 3,
+    'Walking Lead': 8,
+  };
+
+  const weightedSources: string[] = [];
+  for (const [source, weight] of Object.entries(sourceWeights)) {
+    for (let i = 0; i < weight; i++) {
+      weightedSources.push(source);
+    }
+  }
+
   const leads: Lead[] = [];
-  for (let i = 0; i < 200; i++) {
+  for (let i = 0; i < 500; i++) {
     const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
     const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
     const stage = weightedStages[Math.floor(Math.random() * weightedStages.length)];
     const stageIndex = stageOrder.indexOf(stage);
+    const source = weightedSources[Math.floor(Math.random() * weightedSources.length)];
 
     const createdDaysAgo = Math.floor(Math.random() * 60) + 1;
     const leadDate = new Date();
@@ -107,7 +136,7 @@ const generateMockLeads = (): Lead[] => {
       name: `${firstName} ${lastName}`,
       phone: `+971 5${Math.floor(Math.random() * 10)} ${Math.floor(Math.random() * 900) + 100} ${Math.floor(Math.random() * 9000) + 1000}`,
       email: `${firstName.toLowerCase()}.${lastName.toLowerCase().replace(' ', '')}@email.com`,
-      source: sources[Math.floor(Math.random() * sources.length)],
+      source,
       model: models[Math.floor(Math.random() * models.length)],
       showroom: showrooms[Math.floor(Math.random() * showrooms.length)],
       stage,
