@@ -154,7 +154,7 @@ const nodeIdToStage: Record<string, ProcessStage> = Object.fromEntries(
 );
 
 // Additional node types for sources, reasons, and engagement states
-type SourceType = 'Call Center' | 'Instagram' | 'Facebook' | 'Google' | 'Events' | 'CRM' | 'OOH' | 'Website' | 'Walk-in';
+type SourceType = 'Call Center' | 'Instagram' | 'Facebook' | 'Twitter' | 'TikTok' | 'Organic/Paid Search' | 'Events' | 'Web' | 'Social' | 'Blue' | 'Live Chat' | 'Walking Lead';
 type ReasonType = 'Reason 1' | 'Reason 2' | 'Reason 3';
 type EngagementType = 'Not Re-engaged' | 'Re-engaged';
 
@@ -163,12 +163,15 @@ const nodeIdToSource: Record<string, SourceType> = {
   'CC': 'Call Center',
   'IG': 'Instagram',
   'FB': 'Facebook',
-  'GO': 'Google',
+  'TW': 'Twitter',
+  'TK': 'TikTok',
+  'SEARCH': 'Organic/Paid Search',
   'EV': 'Events',
-  'CRM': 'CRM',
-  'OOH': 'OOH',
-  'WEB': 'Website',
-  'WALK': 'Walk-in',
+  'WEB': 'Web',
+  'SOCIAL': 'Social',
+  'BLUE': 'Blue',
+  'LIVECHAT': 'Live Chat',
+  'WALK_LEAD': 'Walking Lead',
 };
 
 // Node ID to reason mapping
@@ -268,15 +271,18 @@ flowchart LR
     %% LEAD SUBGRAPH - Sources to CEC Called
     subgraph LEAD_STAGE [" Lead "]
         direction LR
-        CC["<b>Call center</b><br/><b>inbound</b><br/>1,245<br/><i>10.9%</i>"]
-        IG["<b>Instagram</b><br/>2,134<br/><i>18.7%</i>"]
+        SEARCH["<b>Organic/Paid</b><br/><b>Search</b><br/>1,842<br/><i>16.2%</i>"]
         FB["<b>Facebook</b><br/>1,876<br/><i>16.5%</i>"]
-        GO["<b>Google</b><br/>2,567<br/><i>22.5%</i>"]
+        TW["<b>Twitter</b><br/>543<br/><i>4.8%</i>"]
+        TK["<b>TikTok</b><br/>876<br/><i>7.7%</i>"]
+        IG["<b>Instagram</b><br/>2,134<br/><i>18.7%</i>"]
+        WEB["<b>Web</b><br/>4,118<br/><i>36.2%</i>"]
+        SOCIAL["<b>Social</b><br/>3,652<br/><i>32.1%</i>"]
+        BLUE["<b>Blue</b><br/>234<br/><i>2.1%</i>"]
         EV["<b>Events</b><br/>456<br/><i>4.0%</i>"]
-        CRM["<b>CRM</b><br/>1,123<br/><i>9.9%</i>"]
-        OOH["<b>OOH</b><br/>345<br/><i>3.0%</i>"]
-        WEB["<b>Website</b><br/>987<br/><i>8.7%</i>"]
-        WALK["<b>Walk-in</b><br/>654<br/><i>5.7%</i>"]
+        LIVECHAT["<b>Live Chat</b><br/>312<br/><i>2.7%</i>"]
+        CC["<b>Call center</b><br/><b>Inbound</b><br/>1,245<br/><i>10.9%</i>"]
+        WALK_LEAD["<b>Walking</b><br/><b>Lead</b><br/>876<br/><i>7.7%</i>"]
         LEADS["<b>Leads</b><br/><b>11,387</b><br/><i>100%</i>"]
         CEC_NC["<b>CEC – Not</b><br/><b>called yet</b><br/>1,823<br/><i>16.0%</i>"]:::orange
         CEC_C["<b>CEC - Called</b><br/><b>9,564</b><br/><i>84.0%</i>"]
@@ -303,7 +309,7 @@ flowchart LR
         NO_ACT["<b>No action</b><br/>678<br/><i>10.0%</i>"]:::orange
         SE_ACT["<b>SE Action</b><br/><b>5,662</b><br/><i>83.3%</i>"]
         NOT_INT["<b>Not</b><br/><b>interested</b><br/>1,123<br/><i>19.8%</i>"]:::orange
-        OPP["<b>Opportunities</b><br/><b>4,539</b><br/><i>80.2%</i>"]
+        OPP["<b>Opportunities</b><br/><b>5,415</b><br/><i>80.2%</i>"]
     end
 
     %% TEST DRIVE SUBGRAPH
@@ -329,15 +335,20 @@ flowchart LR
     end
 
     %% Internal connections - Lead Stage
-    CC --> LEADS
-    IG --> LEADS
-    FB --> LEADS
-    GO --> LEADS
-    EV --> LEADS
-    CRM --> WEB
-    OOH --> WALK
+    SEARCH --> WEB
+    FB --> WEB
+    FB --> SOCIAL
+    TW --> WEB
+    TW --> SOCIAL
+    TK --> SOCIAL
+    IG --> WEB
+    IG --> SOCIAL
     WEB --> LEADS
-    WALK --> LEADS
+    SOCIAL --> LEADS
+    BLUE --> LEADS
+    EV --> LEADS
+    LIVECHAT --> LEADS
+    CC --> LEADS
     LEADS --> CEC_NC
     LEADS --> CEC_C
 
@@ -367,6 +378,7 @@ flowchart LR
     %% Internal connections - Booking Stage
     SE_ACT --> NOT_INT
     SE_ACT --> OPP
+    WALK_LEAD --> OPP
 
     %% Booking to Test Drive connection
     OPP --> NO_TD
