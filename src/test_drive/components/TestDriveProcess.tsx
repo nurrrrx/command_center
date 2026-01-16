@@ -310,7 +310,7 @@ flowchart LR
         EV["<b>Events</b><br/>456<br/><i>4.0%</i>"]
         LIVECHAT["<b>Live Chat</b><br/>312<br/><i>2.7%</i>"]
         CC["<b>Call center</b><br/><b>Inbound</b><br/>1,245<br/><i>10.9%</i>"]
-        WALK_LEAD["<b>Walking</b><br/><b>Lead</b><br/>876<br/><i>7.7%</i>"]
+        WALK_LEAD["⭐ <b>Walking</b><br/><b>Lead</b><br/>876<br/><i>7.7%</i>"]:::walkingLead
         LEADS["<b>Leads</b><br/><b>11,387</b><br/><i>100%</i>"]
         CEC_NC["<b>CEC – Not</b><br/><b>called yet</b><br/>1,823<br/><i>16.0%</i>"]:::orange
         CEC_C["<b>CEC - Called</b><br/><b>9,564</b><br/><i>84.0%</i>"]
@@ -419,6 +419,7 @@ flowchart LR
     %% Styling - minimal padding
     classDef default fill:#3B5998,stroke:#2D4373,stroke-width:2px,color:#FFFFFF,padding:6px
     classDef orange fill:#E5A853,stroke:#C88B32,stroke-width:2px,color:#FFFFFF,padding:6px
+    classDef walkingLead fill:#6B7280,stroke:#374151,stroke-width:3px,stroke-dasharray:5 5,color:#FFFFFF,padding:6px
 `;
 
 interface TestDriveProcessProps {
