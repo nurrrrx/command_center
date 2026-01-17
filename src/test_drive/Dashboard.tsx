@@ -29,6 +29,7 @@ import { TimeToTestDrive } from "./components/TimeToTestDrive"
 import { DurationByModel } from "./components/DurationByModel"
 import { OccurrenceHeatmap } from "./components/OccurrenceHeatmap"
 import { TestDrivesByModel } from "./components/TestDrivesByModel"
+import { TestDriveProcessV2 } from "./components/TestDriveProcessV2"
 
 import { LEXUS_MODELS, UAE_SHOWROOMS_DATA, LEAD_SOURCES } from "./data/mockData"
 
@@ -177,6 +178,7 @@ export function TestDriveDashboard() {
       <Tabs defaultValue="overview" className="space-y-4">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="overview-v2">Overview V2</TabsTrigger>
           <TabsTrigger value="funnel">Sales Funnel</TabsTrigger>
           <TabsTrigger value="trends">Trends</TabsTrigger>
           <TabsTrigger value="demographics">Demographics</TabsTrigger>
@@ -213,6 +215,13 @@ export function TestDriveDashboard() {
           {/* Time Series Chart - Full Width */}
           <Card className="p-0 overflow-hidden">
             <TestDrivesOverTime filters={simpleFilters} />
+          </Card>
+        </TabsContent>
+
+        {/* Overview V2 Tab - React Flow */}
+        <TabsContent value="overview-v2" className="space-y-4">
+          <Card className="p-0 overflow-hidden" style={{ height: '700px' }}>
+            <TestDriveProcessV2 />
           </Card>
         </TabsContent>
 

@@ -62,7 +62,7 @@ const generateMockLeads = (): Lead[] => {
   const sources = [
     'Call Center', 'Instagram', 'Facebook', 'Twitter', 'TikTok',
     'Organic/Paid Search', 'Events', 'Web', 'Social', 'Blue',
-    'Live Chat', 'Walking Lead'
+    'Live Chat', 'Walking Lead', 'Unique Leads', 'Duplicated Leads'
   ];
   const models = ['RX350', 'NX350h', 'ES300h', 'LX600', 'GX460', 'IS300', 'LC500', 'UX250h', 'LS500h', 'RC350'];
   const showrooms = ['DFC', 'Sheikh Zayed', 'Abu Dhabi', 'Sharjah', 'Al Ain', 'DIP', 'RAK', 'Ajman', 'Fujairah'];
@@ -97,6 +97,8 @@ const generateMockLeads = (): Lead[] => {
     'Blue': 2,
     'Live Chat': 3,
     'Walking Lead': 8,
+    'Unique Leads': 20,
+    'Duplicated Leads': 5,
   };
 
   const weightedSources: string[] = [];
@@ -183,7 +185,7 @@ const nodeIdToStage: Record<string, ProcessStage> = Object.fromEntries(
 );
 
 // Additional node types for sources, reasons, and engagement states
-type SourceType = 'Call Center' | 'Instagram' | 'Facebook' | 'Twitter' | 'TikTok' | 'Organic/Paid Search' | 'Events' | 'Web' | 'Social' | 'Blue' | 'Live Chat' | 'Walking Lead';
+type SourceType = 'Call Center' | 'Instagram' | 'Facebook' | 'Twitter' | 'TikTok' | 'Organic/Paid Search' | 'Events' | 'Web' | 'Social' | 'Blue' | 'Live Chat' | 'Walking Lead' | 'Unique Leads' | 'Duplicated Leads';
 type ReasonType = 'Reason 1' | 'Reason 2' | 'Reason 3';
 type EngagementType = 'Not Re-engaged' | 'Re-engaged';
 
@@ -201,6 +203,8 @@ const nodeIdToSource: Record<string, SourceType> = {
   'BLUE': 'Blue',
   'LIVECHAT': 'Live Chat',
   'WALK_LEAD': 'Walking Lead',
+  'UNIQUE': 'Unique Leads',
+  'DUP': 'Duplicated Leads',
 };
 
 // Node ID to reason mapping
@@ -312,8 +316,10 @@ flowchart LR
         CC["<b>Call center</b><br/><b>Inbound</b><br/>1,245<br/><i>10.9%</i>"]
         WALK_LEAD["⭐ <b>Walking</b><br/><b>Lead</b><br/>876<br/><i>7.7%</i>"]:::walkingLead
         LEADS["<b>Leads</b><br/><b>11,387</b><br/><i>100%</i>"]
-        CEC_NC["<b>CEC – Not</b><br/><b>called yet</b><br/>1,823<br/><i>16.0%</i>"]:::orange
-        CEC_C["<b>CEC - Called</b><br/><b>9,564</b><br/><i>84.0%</i>"]
+        UNIQUE["<b>Unique</b><br/><b>Leads</b><br/>9,823<br/><i>86.3%</i>"]
+        DUP["<b>Duplicated</b><br/><b>Leads</b><br/>1,564<br/><i>13.7%</i>"]:::orange
+        CEC_NC["<b>CEC – Not</b><br/><b>called yet</b><br/>1,823<br/><i>18.6%</i>"]:::orange
+        CEC_C["<b>CEC - Called</b><br/><b>8,000</b><br/><i>81.4%</i>"]
     end
 
     %% QUALIFICATION SUBGRAPH - Cold/Hot to SM Assigned
@@ -372,8 +378,10 @@ flowchart LR
     EV --> LEADS
     LIVECHAT --> LEADS
     CC --> LEADS
-    LEADS --> CEC_NC
-    LEADS --> CEC_C
+    LEADS --> UNIQUE
+    LEADS --> DUP
+    UNIQUE --> CEC_NC
+    UNIQUE --> CEC_C
 
     %% Lead to Qualification connection
     CEC_C --> COLD

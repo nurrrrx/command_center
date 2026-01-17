@@ -22,7 +22,7 @@ import { TopChannelsPreference } from "../test_drive/components/TopChannelsPrefe
 import { TopShowroomsPreference } from "../test_drive/components/TopShowroomsPreference"
 import { CustomerInsights } from "../test_drive/components/CustomerInsights"
 import { LiveTestDrives } from "../test_drive/components/LiveTestDrives"
-import { TestDriveProcess } from "../test_drive/components/TestDriveProcess"
+import { TestDriveProcessV2 } from "../test_drive/components/TestDriveProcessV2"
 
 import { LEXUS_MODELS, UAE_SHOWROOMS_DATA, LEAD_SOURCES, popularModelsWithFunnelData, demographicsByAgeGender, genderByAgeData, modelPreferencesData, channelPreferencesData, showroomPreferencesData } from "../test_drive/data/mockData"
 
@@ -52,7 +52,7 @@ type LayoutTemplateId = typeof LAYOUT_TEMPLATES[number]['id']
 
 // Base tabs (non-removable)
 const BASE_TABS = [
-  { id: 'testdriveprocess', label: 'Overview', shortLabel: 'Overview', isCustom: false },
+  { id: 'overviewv2', label: 'Overview', shortLabel: 'Overview', isCustom: false },
   { id: 'executive', label: 'Executive Summary', shortLabel: 'KPIs', isCustom: false },
   { id: 'v2funnel', label: 'Sales Funnel', shortLabel: 'Funnel', isCustom: false },
   { id: 'v2opsperformance', label: 'Operational Performance', shortLabel: 'OpsPerf', isCustom: false },
@@ -313,7 +313,7 @@ const saveCustomTabs = (tabs: CustomTab[]) => {
 
 export function V2Dashboard() {
   const [filters, setFilters] = useState<GlobalFilters>(defaultFilters)
-  const [activeTab, setActiveTab] = useState<string>('testdriveprocess')
+  const [activeTab, setActiveTab] = useState<string>('overviewv2')
   const [customTabs, setCustomTabs] = useState<CustomTab[]>(loadCustomTabs)
   const [isLayoutDialogOpen, setIsLayoutDialogOpen] = useState(false)
   const [selectedLayout, setSelectedLayout] = useState<LayoutTemplateId | null>(null)
@@ -851,11 +851,11 @@ export function V2Dashboard() {
           </div>
         )
 
-      case 'testdriveprocess':
+      case 'overviewv2':
         return (
           <div className="tab-content-grid layout11-grid">
             <div className="placeholder-card">
-              <TestDriveProcess headless />
+              <TestDriveProcessV2 headless />
             </div>
           </div>
         )

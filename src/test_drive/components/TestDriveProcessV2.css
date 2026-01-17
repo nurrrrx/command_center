@@ -1,0 +1,713 @@
+/* Test Drive Process V2 - React Flow version */
+.test-drive-process-v2 {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.test-drive-process-v2.headless {
+  padding: 0;
+}
+
+/* Investigate Leads Button */
+.test-drive-process-v2 .investigate-leads-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  padding: 10px 20px;
+  background: #3B5998;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.test-drive-process-v2 .investigate-leads-btn:hover {
+  background: #2D4373;
+}
+
+/* Main content area */
+.test-drive-process-v2 .process-main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Overlay Search Bar */
+.test-drive-process-v2 .overlay-search-container {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+}
+
+.test-drive-process-v2 .overlay-search-wrapper {
+  position: relative;
+  width: 380px;
+}
+
+.test-drive-process-v2 .overlay-search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.test-drive-process-v2 .overlay-search-input {
+  width: 100%;
+  padding-left: 36px;
+  height: 32px;
+  font-size: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px 0 0 6px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.test-drive-process-v2 .overlay-search-input:focus {
+  border-color: #3B5998;
+  box-shadow: 0 2px 12px rgba(59, 89, 152, 0.2);
+  outline: none;
+  background: white;
+}
+
+.test-drive-process-v2 .overlay-search-input::placeholder {
+  color: #94a3b8;
+}
+
+.test-drive-process-v2 .view-all-leads-btn {
+  padding: 0 12px;
+  height: 32px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  background: #3B5998;
+  border: 1px solid #3B5998;
+  border-left: none;
+  border-radius: 0 6px 6px 0;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+}
+
+.test-drive-process-v2 .view-all-leads-btn:hover {
+  background: #2D4373;
+  border-color: #2D4373;
+}
+
+/* Chart container */
+.test-drive-process-v2 .chart-container {
+  position: relative;
+  flex: 1;
+  min-height: 400px;
+  border: 1px solid #e2e8f0;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+/* Custom node styles */
+.custom-node {
+  padding: 10px 16px;
+  border-radius: 8px;
+  min-width: 100px;
+  text-align: center;
+  color: white;
+  border: 2px solid;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.custom-node:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.custom-node.dashed {
+  border-style: dashed;
+  border-width: 3px;
+}
+
+.custom-node .node-label {
+  font-weight: 600;
+  font-size: 12px;
+  white-space: pre-line;
+  line-height: 1.3;
+}
+
+.custom-node .node-value {
+  font-weight: 700;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.custom-node .node-percent {
+  font-size: 11px;
+  font-style: italic;
+  opacity: 0.9;
+  margin-top: 2px;
+}
+
+/* Stage Metrics Bar */
+.test-drive-process-v2 .stage-metrics-bar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 12px 20px;
+  margin-top: 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+  gap: 0;
+  overflow-x: auto;
+}
+
+.test-drive-process-v2 .stage-metric {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+}
+
+.test-drive-process-v2 .stage-metric-name {
+  background: #3B5998;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+}
+
+.test-drive-process-v2 .stage-metric-name:hover {
+  background: #2D4373;
+}
+
+.test-drive-process-v2 .stage-metric-values {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.test-drive-process-v2 .metric-leads {
+  font-weight: 600;
+  font-size: 13px;
+  color: #1e293b;
+  white-space: nowrap;
+}
+
+.test-drive-process-v2 .metric-days {
+  font-size: 11px;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.test-drive-process-v2 .metric-arrow {
+  color: #94a3b8;
+  font-size: 18px;
+  margin: 0 8px;
+}
+
+/* Drawer Overlay */
+.test-drive-process-v2 .leads-drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+}
+
+/* Drawer */
+.test-drive-process-v2 .leads-drawer {
+  width: 100%;
+  max-height: 70vh;
+  background: white;
+  border-radius: 16px 16px 0 0;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Drawer Header */
+.test-drive-process-v2 .drawer-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.test-drive-process-v2 .drawer-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.test-drive-process-v2 .drawer-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.test-drive-process-v2 .drawer-search {
+  padding: 8px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 13px;
+  width: 280px;
+}
+
+.test-drive-process-v2 .drawer-search:focus {
+  outline: none;
+  border-color: #3B5998;
+}
+
+.test-drive-process-v2 .drawer-stage-filter {
+  padding: 8px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 13px;
+  background: white;
+  cursor: pointer;
+}
+
+.test-drive-process-v2 .drawer-close-btn {
+  padding: 8px 16px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.test-drive-process-v2 .drawer-close-btn:hover {
+  background: #dc2626;
+}
+
+/* Drawer Table */
+.test-drive-process-v2 .drawer-table-wrapper {
+  flex: 1;
+  overflow: auto;
+  padding: 0 20px;
+}
+
+.test-drive-process-v2 .drawer-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.test-drive-process-v2 .drawer-table th {
+  position: sticky;
+  top: 0;
+  background: #f8fafc;
+  padding: 12px 8px;
+  text-align: left;
+  font-weight: 600;
+  color: #475569;
+  border-bottom: 2px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.test-drive-process-v2 .drawer-table td {
+  padding: 10px 8px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+}
+
+.test-drive-process-v2 .drawer-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.test-drive-process-v2 .lead-id {
+  font-family: monospace;
+  font-weight: 600;
+  color: #3B5998;
+}
+
+.test-drive-process-v2 .lead-name {
+  font-weight: 500;
+}
+
+.test-drive-process-v2 .lead-phone {
+  font-family: monospace;
+  font-size: 12px;
+}
+
+.test-drive-process-v2 .stage-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.test-drive-process-v2 .duration-header {
+  text-align: center;
+  font-size: 11px;
+}
+
+.test-drive-process-v2 .duration-cell {
+  text-align: center;
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+/* Drawer Footer */
+.test-drive-process-v2 .drawer-footer {
+  padding: 12px 20px;
+  border-top: 1px solid #e2e8f0;
+  font-size: 13px;
+  color: #64748b;
+  text-align: center;
+}
+
+/* React Flow overrides */
+.test-drive-process-v2 .react-flow__node {
+  cursor: pointer;
+}
+
+/* Custom node styling */
+.test-drive-process-v2 .custom-flow-node {
+  background: white;
+  border: 2px solid #64748b;
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: 10px;
+  text-align: center;
+  white-space: pre-line;
+  line-height: 1.3;
+  min-width: 70px;
+  max-width: 80px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.test-drive-process-v2 .custom-flow-node:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: #3B5998;
+}
+
+.test-drive-process-v2 .custom-flow-node .node-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.test-drive-process-v2 .custom-flow-node .node-name {
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.test-drive-process-v2 .custom-flow-node .node-values {
+  font-weight: 400;
+  color: #475569;
+}
+
+.test-drive-process-v2 .custom-flow-node .node-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e293b;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+}
+
+.test-drive-process-v2 .custom-flow-node .node-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #1e293b;
+}
+
+/* Default node styling */
+.test-drive-process-v2 .react-flow__node-default {
+  background: white;
+  border: 2px solid #64748b;
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: 10px;
+  text-align: center;
+  white-space: pre-line;
+  line-height: 1.3;
+  min-width: 70px;
+  max-width: 80px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.test-drive-process-v2 .react-flow__node-default:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: #3B5998;
+}
+
+/* Group node styling */
+.test-drive-process-v2 .react-flow__node-group {
+  border-radius: 12px;
+  border: 2px solid #94a3b8;
+}
+
+/* Subflow label styling - hide handles and make it look like plain text */
+.test-drive-process-v2 .react-flow__node-default[data-id*="-label"] {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  min-width: auto !important;
+}
+
+.test-drive-process-v2 .react-flow__node-default[data-id*="-label"] .react-flow__handle {
+  display: none !important;
+}
+
+.test-drive-process-v2 .react-flow__controls {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.test-drive-process-v2 .react-flow__controls-button {
+  background: white;
+  border: none;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.test-drive-process-v2 .react-flow__controls-button:hover {
+  background: #f8fafc;
+}
+
+/* Settings Button */
+.test-drive-process-v2 .settings-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #64748b;
+  transition: color 0.2s ease;
+}
+
+.test-drive-process-v2 .settings-btn:hover {
+  color: #3B5998;
+}
+
+/* Settings Dialog Overlay */
+.test-drive-process-v2 .settings-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Settings Dialog */
+.test-drive-process-v2 .settings-dialog {
+  background: white;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90vw;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.test-drive-process-v2 .settings-dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.test-drive-process-v2 .settings-dialog-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.test-drive-process-v2 .settings-close-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.2s ease;
+}
+
+.test-drive-process-v2 .settings-close-btn:hover {
+  background: #f1f5f9;
+  color: #ef4444;
+}
+
+.test-drive-process-v2 .settings-dialog-content {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Settings Toggle */
+.test-drive-process-v2 .settings-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.test-drive-process-v2 .settings-toggle:hover {
+  background: #f1f5f9;
+}
+
+.test-drive-process-v2 .settings-toggle input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #3B5998;
+  cursor: pointer;
+}
+
+.test-drive-process-v2 .settings-toggle .toggle-label {
+  flex: 1;
+  font-weight: 600;
+  font-size: 14px;
+  color: #1e293b;
+}
+
+.test-drive-process-v2 .settings-toggle .toggle-description {
+  width: 100%;
+  font-size: 12px;
+  color: #64748b;
+  margin-left: 32px;
+}
+
+/* Dark Mode Styles */
+.test-drive-process-v2 .react-flow.dark-mode {
+  background: #1e293b;
+}
+
+.test-drive-process-v2 .react-flow.dark-mode .react-flow__background {
+  background: #1e293b;
+}
+
+.test-drive-process-v2 .react-flow.dark-mode .custom-flow-node {
+  background: #334155;
+  border-color: #475569;
+  color: white;
+}
+
+.test-drive-process-v2 .react-flow.dark-mode .custom-flow-node .node-name {
+  color: white;
+}
+
+.test-drive-process-v2 .react-flow.dark-mode .custom-flow-node .node-values {
+  color: #cbd5e1;
+}
+
+.test-drive-process-v2 .react-flow.dark-mode .react-flow__node-group {
+  border-color: #475569;
+}
+
+.test-drive-process-v2 .react-flow.dark-mode .react-flow__node-default[data-id*="-label"] {
+  color: #e2e8f0 !important;
+}
+
+.test-drive-process-v2 .react-flow.dark-mode .react-flow__edge-path {
+  stroke: #94a3b8;
+}
+
+.test-drive-process-v2 .react-flow.dark-mode .react-flow__controls {
+  background: #334155;
+  border-color: #475569;
+}
+
+.test-drive-process-v2 .react-flow.dark-mode .react-flow__controls-button {
+  background: #334155;
+  border-color: #475569;
+  fill: #e2e8f0;
+}
+
+.test-drive-process-v2 .react-flow.dark-mode .react-flow__controls-button:hover {
+  background: #475569;
+}
